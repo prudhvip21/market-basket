@@ -12,7 +12,7 @@ import os
 
 os.chdir('/home/prudhvi/Documents/market_basket_data') 
 
-
+from sklearn.metrics import precision_score, accuracy_score , recall_score ,f1_score,  confusion_matrix
 import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)  
 
@@ -32,7 +32,6 @@ departments_df = pd.read_csv("departments.csv")
 
 orders_df.head() 
 order_products_prior_df.head() 
-
 order_products_train_df.head()
 
 
@@ -120,13 +119,73 @@ order_products_prior_df.head()
 """ Simple Naive Bayes Model """ 
 
 
+
+""" Creatinng overall probabilities for the each product_id""" 
+
 count_df = order_products_prior_df.groupby("product_id")["reordered"].aggregate('count') 
 count_df.name = 'Total Count'
-
 sum_df = order_products_prior_df.groupby("product_id")["reordered"].aggregate('sum') 
-
 sum_df.name = 'Reorders count'
 
 df = pd.concat([count_df,sum_df],axis= 1).reset_index()
-
 df['Reorder_ratio'] = df['Reorders count']/df['Total Count']
+
+
+order_products_prior_df = pd.merge(order_products_prior_df,orders_df,on = 'order_id' , how = 'left') 
+overall_sum_df = order_products_prior_df.groupby(["user_id","product_id"])['reordered'].aggregate('sum')
+overall_sum_df.name = "Reorders Count"
+
+
+
+overall_count_df = order_products_prior_df.groupby(["user_id","product_id"])['reordered'].aggregate('count')
+overall_count_df.name = "Total Count"
+
+
+df2 = pd.concat([overall_sum_df,overall_count_df],axis = 1).reset_index()
+df2['ratio'] = df2['Reorders Count']/df2['Total Count']
+
+
+df_submissions = pd.merge(order_products_train_df,orders_df, on = 'order_id' , how ='left')
+
+del df_submissions['add_to_cart_order'],df_submissions['eval_set'],df_submissions['order_number'],df_submissions['order_dow'],df_submissions['order_hour_of_day'], df_submissions['days_since_prior_order']
+
+df_submissions = pd.merge(df_submissions,df.iloc[:,[0,3]],on = 'product_id' ,how = 'left')
+
+df_submissions.rename(columns = {'Reorder_ratio' : 'Overall_Reorder_Ratio'} , inplace = True )
+
+df_submissions = pd.merge(df_submissions, df2.iloc[:,[0,1,4]], on = ['product_id','user_id'], how = 'left') 
+
+df_submissions.rename(columns = {'ratio' : 'User_Reorder_Ratio'} , inplace = True)
+
+
+    
+df_submissions['final_prob'] = df_submissions['Overall_Reorder_Ratio']*df_submissions['User_Reorder_Ratio']
+
+ 
+""" 
+for index, row in df_submissions.iterrows():
+    if np.isnan(row['final_prob']) :
+        row['final_prob'] = row['Overall_Reorder_Ratio']
+        print index 
+""" 
+
+df_submissions['final_prob'] = np.where(np.isnan(df_submissions['final_prob']), df_submissions['Overall_Reorder_Ratio'] , df_submissions['final_prob'])
+
+
+df_submissions['predicted'] = np.where(df_submissions['final_prob']>0.4,1,0)
+
+print accuracy_score(df_submissions['reordered'],df_submissions['predicted'])
+
+print confusion_matrix(df_submissions['reordered'],df_submissions['predicted']) 
+
+print f1_score(df_submissions['reordered'],df_submissions['predicted']) 
+
+
+df3 = df_submissions.groupby(['order_id'])['reordered','predicted'].apply(get_f1) 
+
+df3 = df_submissions.groupby(['order_id'])['reordered','predicted'].apply(lambda x : get_f1(x['reordered'],x['predicted']))
+
+
+def get_f1(x,y):
+    return f1_score(x,y) 
+
