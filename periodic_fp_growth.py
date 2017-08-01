@@ -315,7 +315,7 @@ def plist(orders) :
         if len(orders) - pf_list[key]['ts'] > pf_list[key]['per'] :
             pf_list[key]['per'] = len(orders) - pf_list[key]['ts']
 
-    print pf_list
+    #print pf_list
     return pf_list
 
 
@@ -331,5 +331,11 @@ single_user_df = single_user_df.sort_values(by ='order_number')
 
 plist(single_user_df[0])
 
-def prune_plist(pf_list)
-    for key in pf_list
+def prune_plist(pf_list,min_freq,max_per) :
+    for key in pf_list.keys() :
+        if pf_list[key]['per'] > max_per or pf_list[key]['freq'] < min_freq :
+        del pf_list[key]
+    print pf_list
+    return pf_list
+
+prune_plist(plist(single_user_df[0]),3,4)
