@@ -7,20 +7,24 @@ Created on Mon Jul 17 13:59:50 2017
 """
 
 
-import os 
+import os
 os.chdir('/home/prudhvi/Documents/market_basket_data') 
 
 from sklearn.metrics import precision_score,accuracy_score,recall_score,f1_score, confusion_matrix
 import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)  
 
+import time
+start_time = time.time()
 
 order_products_train_df = pd.read_csv("order_products__train.csv")
 order_products_prior_df = pd.read_csv("order_products__prior.csv") 
 orders_df = pd.read_csv("orders.csv")
 products_df = pd.read_csv("products.csv")
 aisles_df = pd.read_csv("aisles.csv")
-departments_df = pd.read_csv("departments.csv") 
+departments_df = pd.read_csv("departments.csv")
+
+print ("--- %s seconds ---" % (time.time() - start_time))
 
 
 

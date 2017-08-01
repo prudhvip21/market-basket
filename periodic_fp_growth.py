@@ -280,4 +280,21 @@ def generate_association_rules(patterns, confidence_threshold):
 
 
 
-def 
+def pf_list(orders) :
+    curr = 0
+    for order in orders :
+        curr = curr + 1
+        for product in order :
+            if product in pf_list.keys() :
+
+
+
+
+            else  :
+                d = {}
+                d[freq] = 1
+                d[per] = 1
+                d[ts] = curr
+                pf_list[product] = d
+
+
