@@ -23,7 +23,7 @@ class FPNode(object):
         """
         Create the node.
         """
-        self.value = value
+        self.name = value
         self.count = count
         self.parent = parent
         self.link = None
@@ -34,7 +34,7 @@ class FPNode(object):
         Check if node has a particular child node.
         """
         for node in self.children:
-            if node.value == value:
+            if node.name == value:
                 return True
 
         return False
@@ -44,7 +44,7 @@ class FPNode(object):
         Return a child node with a particular value.
         """
         for node in self.children:
-            if node.value == value:
+            if node.name == value:
                 return node
 
         return None
@@ -66,15 +66,17 @@ class FPTree(object):
     """
     A frequent pattern tree.
     """
-
-    def __init__(self, transactions,root_value, root_count):
+    def __init__(self, transactions,frequent,root_value, root_count):
         """
         Initialize the tree.
         """
-        #self.frequent = self.find_frequent_items(transactions, threshold)
-        self.headers = self.build_header_table(self.frequent)
+        self.frequent = frequent
+        self.headers = build_header_table(frequent)
         self.root = self.build_fptree(transactions, root_value,
             root_count, self.frequent, self.headers)
+
+    def __repr__(self):
+        return 'node(' + repr(self.root.value) + ', ' + repr(self.root.children) + ')'
 
     def build_header_table(frequent):
         """
@@ -170,24 +172,64 @@ def plist(orders) :
 
 
 prior_with_userids = pd.merge(order_products_prior_df,orders_df,on = 'order_id', how = 'left')
+del orders_df
+del order_products_prior_df
+
 
 single_user_df = prior_with_userids[prior_with_userids['user_id']==1]
 
-userids_with_orderlist = single_user_df.groupby(['user_id','order_id'])['product_id','order_number'].apply(lambda x: x['product_id'].tolist()).reset_index()
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+del prior_with_userids
 
-single_user_df = pd.merge(single_user_df,orders_df.iloc[:,[0,3]],on = 'order_id' , how = 'left')
 
 single_user_df = single_user_df.sort_values(by ='order_number')
 
-plist(single_user_df[0])
+singleuser_with_orderlist = single_user_df.groupby(['user_id','order_id'])['product_id','order_number'].apply(lambda x: x['product_id'].tolist()).reset_index()
+
+
+# single_user_df = pd.merge(singleuser_with_orderlist,orders_df.iloc[:,[0,3]],on = 'order_id' , how = 'left')
+
+
+plist(singleuser_with_orderlist[0])
 
 def prune_plist(pf_list,min_freq,max_per) :
     for key in pf_list.keys() :
         if pf_list[key]['per'] > max_per or pf_list[key]['freq'] < min_freq :
         del pf_list[key]
+
+    for key in pf_list.keys() :
+        pf_list[key] = pf_list[key]['freq']
+
     print pf_list
     return pf_list
 
-prune_plist(plist(single_user_df[0]),3,4)
+freq = prune_plist(plist(singleuser_with_orderlist[0]),2,6)
+
+# fp_tree
+
+#freq = build_header_table(freq)
+
+fptree1 = FPTree(singleuser_with_orderlist[0].tolist(),freq,0,0)
+
+
+import  anytree
+from anytree import  RenderTree
+
+
+for pre,fill,node in RenderTree(fptree1.root):
+    #print pre
+    print("%s%s" % (pre, node.name))
+
+
+"""Junk Code  
+def node_recurse_generator(node):
+    yield node.value
+    #print node.value
+    for n in node.children:
+        for rn in node_recurse_generator(n):
+            yield rn
+        #yield "EnD"
+
+
+list(node_recurse_generator(fptree1.root))
+
+"""
