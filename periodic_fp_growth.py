@@ -28,6 +28,8 @@ class FPNode(object):
         self.parent = parent
         self.link = None
         self.children = []
+        self.transactions = []
+        self.flag = 0
 
     def has_child(self, value):
         """
@@ -94,26 +96,31 @@ class FPTree(object):
         """
         root = FPNode(root_value, root_count, None)
 
-        for transaction in transactions:
+        for ind,transaction in enumerate(transactions):
             sorted_items = [x for x in transaction if x in frequent]
-            sorted_items.sort(key=lambda x: frequent[x], reverse=True)
+            sorted_items.sort(key=lambda x: (frequent[x],x), reverse=True)
             if len(sorted_items) > 0:
-                self.insert_tree(sorted_items, root, headers)
+                self.insert_tree(sorted_items,ind,root, headers)
 
         return root
 
-    def insert_tree(self, items, node, headers):
+    def insert_tree(self, items,ind,node, headers):
         """
         Recursively grow FP tree.
         """
         first = items[0]
+
+
         child = node.get_child(first)
         if child is not None:
             child.count += 1
+            if len(items) == 1:
+                child.transactions.append(ind)
         else:
             # Add new child.
             child = node.add_child(first)
-
+            if len(items) == 1:
+                child.transactions.append(ind)
             # Link it to header structure.
             if headers[first] is None:
                 headers[first] = child
@@ -123,10 +130,15 @@ class FPTree(object):
                     current = current.link
                 current.link = child
 
+
+
         # Call function recursively.
         remaining_items = items[1:]
         if len(remaining_items) > 0:
-            self.insert_tree(remaining_items, child, headers)
+            self.insert_tree(remaining_items,ind,child, headers)
+
+
+
 
 
     def tree_has_single_path(self, node):
@@ -215,9 +227,61 @@ import  anytree
 from anytree import  RenderTree
 
 
-for pre,fill,node in RenderTree(fptree1.root):
+for pre,fill,node in RenderTree(fptree1_pruned.root):
     #print pre
-    print("%s%s" % (pre, node.name))
+    #node.flag = 0
+    print("%s%s" % (pre,node.transactions))
+
+
+def prune_tree(tree,node_value) :
+    current = tree.headers[node_value]
+    while current.link is not None:
+        temp = current
+        while temp.name is not 0:
+            #print "1"
+            temp.flag = 1
+            #print temp.flag
+            temp = temp.parent
+        current.parent.transactions.extend(current.transactions)
+        current.parent.children.remove(current)
+        current = current.link
+
+    temp = current
+    while temp.name is not 0:
+        temp.flag = 1
+        temp = temp.parent
+    current.parent.transactions.extend(current.transactions)
+    current.parent.children.remove(current)
+
+    for pre,fill,node in RenderTree(tree.root):
+        if node.name != 0 and node.flag == 0:
+            node.parent.children.remove(node)
+
+    for pre, fill,node in RenderTree(tree.root):
+        # print pre
+        # node.flag = 0
+        if len(node.transactions) != 0:
+            temp = node
+            while temp.parent.name != 0:
+                temp.parent.transactions.extend(temp.transactions)
+                temp.parent.transactions = list(set(temp.parent.transactions))
+                temp = temp.parent
+
+    return tree
+
+
+fptree1_pruned = prune_tree(fptree1,13176)
+
+
+for pre,fill,node in RenderTree(fptree1_pruned.root):
+
+    print("%s%s" % (pre,node.transactions))
+
+
+
+trns = fptree1_pruned.root.children[0].transactions
+
+k = [(trns[i+1]-trns[i]) for i in range(len(trns)) if i <= len(trns)-2]
 
 
 """Junk Code  
@@ -231,5 +295,28 @@ def node_recurse_generator(node):
 
 
 list(node_recurse_generator(fptree1.root))
+
+transaction = singleuser_with_orderlist[0].tolist()[2]
+t = [x for x in transaction if x in freq]
+
+t.sort(key=lambda x: (freq[x],x), reverse=True)
+
+for index,value in enumerate(i) :
+    print index  
+
+
+    current = fptree1.headers[13032]
+
+
+current = fptree1.headers[13032]
+for i in range(5)  :
+    if current.link is None :
+        print current.parent.name
+        break
+    else :
+        print current.parent.name
+        current = current.link
+
+
 
 """
