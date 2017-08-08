@@ -7,6 +7,10 @@ os.chdir('/home/prudhvi/Documents/market_basket_data')
 from sklearn.metrics import precision_score,accuracy_score,recall_score,f1_score, confusion_matrix
 import numpy as np # linear algebra
 import pandas as pd
+import  anytree
+from anytree import  RenderTree
+from copy import deepcopy
+
 
 order_products_train_df = pd.read_csv("order_products__train.csv")
 order_products_prior_df = pd.read_csv("order_products__prior.csv")
@@ -109,8 +113,6 @@ class FPTree(object):
         Recursively grow FP tree.
         """
         first = items[0]
-
-
         child = node.get_child(first)
         if child is not None:
             child.count += 1
@@ -130,16 +132,10 @@ class FPTree(object):
                     current = current.link
                 current.link = child
 
-
-
         # Call function recursively.
         remaining_items = items[1:]
         if len(remaining_items) > 0:
             self.insert_tree(remaining_items,ind,child, headers)
-
-
-
-
 
     def tree_has_single_path(self, node):
         """
@@ -201,7 +197,6 @@ singleuser_with_orderlist = single_user_df.groupby(['user_id','order_id'])['prod
 # single_user_df = pd.merge(singleuser_with_orderlist,orders_df.iloc[:,[0,3]],on = 'order_id' , how = 'left')
 
 
-plist(singleuser_with_orderlist[0])
 
 def prune_plist(pf_list,min_freq,max_per) :
     for key in pf_list.keys() :
@@ -220,20 +215,10 @@ freq = prune_plist(plist(singleuser_with_orderlist[0]),2,6)
 
 #freq = build_header_table(freq)
 
-fptree1 = FPTree(singleuser_with_orderlist[0].tolist(),freq,0,0)
 
 
-import  anytree
-from anytree import  RenderTree
-
-
-for pre,fill,node in RenderTree(fptree1_pruned.root):
-    #print pre
-    #node.flag = 0
-    print("%s%s" % (pre,node.transactions))
-
-
-def prune_tree(tree,node_value) :
+def prune_tree(temp_tree,node_value) :
+    tree = deepcopy(temp_tree)
     current = tree.headers[node_value]
     while current.link is not None:
         temp = current
@@ -242,7 +227,9 @@ def prune_tree(tree,node_value) :
             temp.flag = 1
             #print temp.flag
             temp = temp.parent
-        current.parent.transactions.extend(current.transactions)
+
+        if current.parent.name != 0 :
+            current.parent.transactions.extend(current.transactions)
         current.parent.children.remove(current)
         current = current.link
 
@@ -250,7 +237,9 @@ def prune_tree(tree,node_value) :
     while temp.name is not 0:
         temp.flag = 1
         temp = temp.parent
-    current.parent.transactions.extend(current.transactions)
+
+    if current.parent.name != 0:
+        current.parent.transactions.extend(current.transactions)
     current.parent.children.remove(current)
 
     for pre,fill,node in RenderTree(tree.root):
@@ -262,29 +251,89 @@ def prune_tree(tree,node_value) :
         # node.flag = 0
         if len(node.transactions) != 0:
             temp = node
-            while temp.parent.name != 0:
-                temp.parent.transactions.extend(temp.transactions)
-                temp.parent.transactions = list(set(temp.parent.transactions))
+            while temp.parent is not None:
+                if temp.parent.name != 0 :
+                    temp.parent.transactions.extend(temp.transactions)
+                    temp.parent.transactions = list(set(temp.parent.transactions))
+
                 temp = temp.parent
 
     return tree
 
 
-fptree1_pruned = prune_tree(fptree1,13176)
 
 
-for pre,fill,node in RenderTree(fptree1_pruned.root):
-
-    print("%s%s" % (pre,node.transactions))
-
+for pre,fill,node in RenderTree(fptree1.root):
+    print("%s%s" % (pre,node.name))
 
 
-trns = fptree1_pruned.root.children[0].transactions
+def conditional_patterns(tree_pruned,pattern_node,patterns) :
 
-k = [(trns[i+1]-trns[i]) for i in range(len(trns)) if i <= len(trns)-2]
+    for pre, fill, node in RenderTree(tree_pruned.root):
+        if  node.name is not 0 :
+            try :
+                trns = node.transactions
+                #print trns
+                k = [(trns[i + 1] - trns[i]) for i in range(len(trns)) if i <= len(trns) - 2]
+                #print k
+                per = max(k)
+                f = len(trns)
+                pattern = str(pattern_node) + ","+ str(node.name)
+                if per < 7 and f > 2 :
+                    patterns[pattern] = [f,per]
+                    #print pattern
+            except :
+                 pass
+    return patterns
 
 
-"""Junk Code  
+def next_pftree(original_tree,node) :
+    tem = deepcopy(original_tree)
+    n = tem.headers[node]
+    while True :
+        n.parent.transactions.extend(n.transactions)
+        n.parent.children.remove(n)
+        if n.link is None :
+            break
+        else :
+            n = n.link
+    return tem
+
+
+transaction_list = singleuser_with_orderlist[0].tolist()
+transactions = plist(singleuser_with_orderlist[0])
+
+def generate_patterns(transaction_list,transactions) :
+    freq = prune_plist(transactions,2,6)
+    fptree  = FPTree(transaction_list, freq, 0, 0)
+    pf_table = freq.items()
+    pf_table.sort(key = operator.itemgetter(1,0))
+    patterns = { }
+    for item in pf_table :
+        fptree_pruned = prune_tree(fptree, item[0])
+        pat = conditional_patterns(fptree_pruned,item[0],patterns)
+        patterns.update(pat)
+        fptree = next_pftree(fptree,item[0])
+
+    return pat
+
+
+
+
+pat = generate_patterns(transaction_list,transactions)
+
+
+
+
+
+"""Junk Code   
+
+node = fptree1.headers[26088]
+for i in range(5):
+    print node.name
+    node = node.link
+
+
 def node_recurse_generator(node):
     yield node.value
     #print node.value
@@ -318,5 +367,44 @@ for i in range(5)  :
         current = current.link
 
 
+                temp = pd.DataFrame([pattern,f,per],columns =('pattern','frequency','periodicity'))
+                df.append(temp)
+                #df.loc[len(df)] = pattern 
+                
+                
+                trns = fptree1_pruned.root.children[0].transactions
+
+k = [(trns[i+1]-trns[i]) for i in range(len(trns)) if i <= len(trns)-2]
+
+
+import operator
+sorted_x = sorted(freq.items(), key= lambda x: (operator.itemgetter(1),operator.itemgetter(0)),reverse = True)
+
+
+i = freq.items() 
+
+kk = next_pftree(fptree1,26088)
+
+
+
+conditional_patterns(fptree1_pruned,13176)
+ 
+ 
+
+fptree1_pruned = prune_tree(fptree1,13176) 
+
+
+
+
+fptree1 = FPTree(singleuser_with_orderlist[0].tolist(),freq,0,0)
+
+
+plist(singleuser_with_orderlist[0])
+
+
+for pre,fill,node in RenderTree(tree.root):
+    #print pre
+    #node.flag = 0
+    print("%s%s" % (pre,node.name))
 
 """
