@@ -184,7 +184,7 @@ del orders_df
 del order_products_prior_df
 
 
-single_user_df = prior_with_userids[prior_with_userids['user_id']==1]
+single_user_df = prior_with_userids[prior_with_userids['user_id']==2]
 
 del prior_with_userids
 
@@ -193,6 +193,7 @@ single_user_df = single_user_df.sort_values(by ='order_number')
 
 singleuser_with_orderlist = single_user_df.groupby(['user_id','order_id'])['product_id','order_number'].apply(lambda x: x['product_id'].tolist()).reset_index()
 
+new = pd.merge(singleuser_with_orderlist,orders_df,on =['order_id','user_id'], how= 'left')
 
 # single_user_df = pd.merge(singleuser_with_orderlist,orders_df.iloc[:,[0,3]],on = 'order_id' , how = 'left')
 
