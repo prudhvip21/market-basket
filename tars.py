@@ -41,19 +41,18 @@ def intra_time(sorted_transactions_df,pattern) :
     for index,row in sorted_transactions_df.iterrows() :
         if x in row[0] :
             for index2,row2 in islice(sorted_transactions_df.iterrows(),i+1, None) :
-                #print index
-                #print index2
+                if x in row2[0] and first == 0:
+                    break
                 if y in row2[0] :
                     time = time + row2['days_since_prior_order']
+                    first = 1
                     intra.append(time)
                     time = 0
-                    #print row[0]
-                    #print row2[0]
-                    #print index
                     break
                 else :
                     time = time + row2['days_since_prior_order']
-        i = i+ 1
+
+        i = i + 1
     return intra
 
 
@@ -64,12 +63,9 @@ intr = intra_time(new,pattern=pat.items()[0][0])
 """
 Junk code
 
-
-
 for index,row  in new.iterrows() :
 
     print row['days_since_prior_order'],row[0] 
-
 
 
 for index, row in islice(new.iterrows(), 2, None) :
