@@ -179,22 +179,6 @@ def plist(orders) :
     return pf_list
 
 
-prior_with_userids = pd.merge(order_products_prior_df,orders_df,on = 'order_id', how = 'left')
-del orders_df
-del order_products_prior_df
-
-
-single_user_df = prior_with_userids[prior_with_userids['user_id']==2]
-
-del prior_with_userids
-
-
-single_user_df = single_user_df.sort_values(by ='order_number')
-
-singleuser_with_orderlist = single_user_df.groupby(['user_id','order_id'])['product_id','order_number'].apply(lambda x: x['product_id'].tolist()).reset_index()
-
-new = pd.merge(singleuser_with_orderlist,orders_df,on =['order_id','user_id'], how= 'left')
-
 # single_user_df = pd.merge(singleuser_with_orderlist,orders_df.iloc[:,[0,3]],on = 'order_id' , how = 'left')
 
 
@@ -300,10 +284,6 @@ def next_pftree(original_tree,node) :
             n = n.link
     return tem
 
-
-transaction_list = singleuser_with_orderlist[0].tolist()
-transactions = plist(singleuser_with_orderlist[0])
-
 def generate_patterns(transaction_list,transactions) :
     freq = prune_plist(transactions,2,6)
     fptree  = FPTree(transaction_list, freq, 0, 0)
@@ -321,8 +301,46 @@ def generate_patterns(transaction_list,transactions) :
 
 
 
+
+
+
+
+prior_with_userids = pd.merge(order_products_prior_df,orders_df,on = 'order_id', how = 'left')
+del orders_df
+del order_products_prior_df
+
+
+single_user_df = prior_with_userids[prior_with_userids['user_id']==2]
+
+del prior_with_userids
+
+
+single_user_df = single_user_df.sort_values(by ='order_number')
+
+singleuser_with_orderlist = single_user_df.groupby(['user_id','order_id'])['product_id','order_number'].apply(lambda x: x['product_id'].tolist()).reset_index()
+
+new = pd.merge(singleuser_with_orderlist,orders_df,on =['order_id','user_id'], how= 'left')
+
+
+
+
+transaction_list = singleuser_with_orderlist[0].tolist()
+transactions = plist(singleuser_with_orderlist[0])
+
+
+
 pat = generate_patterns(transaction_list,transactions)
 
+for item in pat.items() :
+
+l = [item[0].split(',') for item in pat.items()]
+
+l = [item for sublist in l for item in sublist]
+
+
+l = list(set(l))
+
+def submission() :
 
 
 
