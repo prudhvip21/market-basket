@@ -191,7 +191,7 @@ def prune_plist(pf_list,min_freq,max_per) :
     for key in pf_list.keys() :
         pf_list[key] = pf_list[key]['freq']
 
-    print pf_list
+    #print pf_list
     return pf_list
 
 freq = prune_plist(plist(singleuser_with_orderlist[0]),2,6)
@@ -296,49 +296,39 @@ def generate_patterns(transaction_list,transactions) :
         patterns.update(pat)
         fptree = next_pftree(fptree,item[0])
 
-    return pat
+    return patterns
 
 
+orders_df_test = orders_df[orders_df['eval_set']=='test']
+userids_list = list(set(orders_df_test['user_id']))
+prior_with_userids = pd.merge(order_products_prior_df, orders_df, on='order_id', how='left')
 
-
-
-
-
-
-prior_with_userids = pd.merge(order_products_prior_df,orders_df,on = 'order_id', how = 'left')
 del orders_df
 del order_products_prior_df
-
-
-single_user_df = prior_with_userids[prior_with_userids['user_id']==2]
-
 del prior_with_userids
 
 
-single_user_df = single_user_df.sort_values(by ='order_number')
+def final_submission(prior,orders_df,d_min,userids_list) :
 
-singleuser_with_orderlist = single_user_df.groupby(['user_id','order_id'])['product_id','order_number'].apply(lambda x: x['product_id'].tolist()).reset_index()
-
-new = pd.merge(singleuser_with_orderlist,orders_df,on =['order_id','user_id'], how= 'left')
-
-
-
-
-transaction_list = singleuser_with_orderlist[0].tolist()
-transactions = plist(singleuser_with_orderlist[0])
-
-
-
-pat = generate_patterns(transaction_list,transactions)
-
-for item in pat.items() :
-
-l = [item[0].split(',') for item in pat.items()]
-
-l = [item for sublist in l for item in sublist]
+    for z in userids_list :
+        single_user_df = prior[prior['user_id']==z]
+        single_user_df = single_user_df.sort_values(by ='order_number')
+        singleuser_with_orderlist = single_user_df.groupby(['user_id','order_id'])['product_id','order_number'].apply(lambda x: x['product_id'].tolist()).reset_index()
+        final_df = pd.merge(singleuser_with_orderlist,orders_df,on =['order_id','user_id'], how= 'left')
+        transaction_list = final_df[0].tolist()
+        transactions = plist(final_df[0])
+        patrns= generate_patterns(transaction_list,transactions)
+        pm = p_min(final_df, patrns)
+        rated_items = tbp_predictor(final_df,patrns,d_min,pm)
+        predicted_list = final_product_list(final_df,rated_items)
+        print z
+        print predicted_list
+    return predicted_list
 
 
-l = list(set(l))
+kk = final_submission(prior_with_userids,orders_df_test,25,userids_list)
+
+prior = prior_with_userids
 
 def submission() :
 
@@ -346,6 +336,15 @@ def submission() :
 
 
 """Junk Code   
+
+
+
+for item in pat.items() :
+
+l = [item[0].split(',') for item in pat.items()]
+
+l = [item for sublist in l for item in sublist]
+
 
 node = fptree1.headers[26088]
 for i in range(5):

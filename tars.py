@@ -3,7 +3,9 @@
 #inter time and intra time
 import math
 from itertools import *
-
+import numpy as np
+from __future__ import division
+from collections import Counter
 new = pd.merge(singleuser_with_orderlist,orders_df,on =['order_id','user_id'], how= 'left')
 
 def inter_time(sorted_transactions_df, pattern, del_min):
@@ -111,8 +113,7 @@ for index,row  in new.iterrows() :
 
 """
 
-    
-    
+
 
 def intra_inter_time(sorted_transactions_df,pattern,del_min) :
     time_intra = 0
@@ -163,5 +164,66 @@ def intra_inter_time(sorted_transactions_df,pattern,del_min) :
 
 intra,inter,periods = intra_inter_time(new,pattern=pat.items()[1][0],del_min= 70)
 
-def p_min():
-    
+def p_min(new,pat):
+    overall = []
+    pats = [item[0] for item in pat.items()]
+    for pat in pats :
+        intra,inter,periods = intra_inter_time(new,pat,90)
+        #print intra
+        #print inter
+        #print periods
+        overall.append(len(periods))
+
+    if len(overall) > 0  :
+        return np.percentile(overall,20)
+    else :
+        return 0
+
+
+pm = p_min(new,pat)
+
+
+
+def tbp_predictor(df,pat,d_min,pm) :
+    Q = 0
+    pats = [item[0] for item in pat.items()]
+    tot_items = [m.split(',') for m in pats]
+    tot_items = [item for sublist in tot_items for item in sublist]
+    predictors = Counter(tot_items)
+    for i in pats :
+        intra, inter, periods = intra_inter_time(df,i,d_min)
+        if len(periods)>= pm and len(periods)!=0:
+            p= len(periods[len(periods)-1])
+            q = np.median([len(it) for it in periods])
+            if p ==q :
+                Q = p
+            else :
+                Q = (p-q)/p
+
+        kk = i.split(',')
+        predictors[kk[0]] = predictors[kk[0]] + Q
+        predictors[kk[1]] = predictors[kk[1]] + Q
+
+    return dict(predictors)
+
+
+kk = tbp_predictor(pat)
+
+
+def final_product_list(sorted_transactions_df, items_dict) :
+    sorted_items = sorted(items_dict.items(), key=operator.itemgetter(1),reverse = True)
+    order_lengths = [len(it) for it in sorted_transactions_df[0]]
+    median_size = int(np.mean(order_lengths))
+    if median_size < len(sorted_items) :
+        final_items = [int(sorted_items[i][0]) for i in range(median_size)]
+    else :
+        final_items = [int(item[0]) for item in sorted_items]
+
+    return final_items
+
+
+
+
+final_items = final_product_list(new,kk)
+
+
