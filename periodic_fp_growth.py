@@ -329,12 +329,14 @@ def final_submission(prior,orders_df,d_min,userids_list) :
             pm = p_min(final_df, patrns)
             rated_items = tbp_predictor(final_df,patrns,d_min,pm)
             predicted_list = final_product_list(final_df,rated_items)
-            print z
-            print predicted_list
+            #print z
+            #print predicted_list
             submiss[z] = predicted_list
-            if i > 20 :
-                break
 
+            if len(predicted_list) == 0 :
+                submiss[z] = ' '
+            else :
+                submiss[z] = " ".join(str(c) for c in predicted_list)
         except :
             submiss[z] = ' '
             pass
