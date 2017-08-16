@@ -6,6 +6,7 @@ from itertools import *
 import numpy as np
 from __future__ import division
 from collections import Counter
+import operator
 new = pd.merge(singleuser_with_orderlist,orders_df,on =['order_id','user_id'], how= 'left')
 
 def inter_time(sorted_transactions_df, pattern, del_min):
@@ -168,7 +169,12 @@ def p_min(new,pat):
     overall = []
     pats = [item[0] for item in pat.items()]
     for pat in pats :
-        intra,inter,periods = intra_inter_time(new,pat,90)
+        intra,inter,periods = intra_inter_time(new,pat,2)
+        if len(inter)  != 0 :
+            pmi = np.percentile(inter,80)
+        else :
+            pmi = 5
+        intra, inter, periods = intra_inter_time(new, pat, pmi)
         #print intra
         #print inter
         #print periods
@@ -192,6 +198,11 @@ def tbp_predictor(df,pat,d_min,pm) :
     predictors = Counter(tot_items)
     for i in pats :
         intra, inter, periods = intra_inter_time(df,i,d_min)
+        if len(inter) != 0 :
+            pmq = np.percentile(inter, 80)
+        else :
+            pmq = 5
+        intra, inter, periods = intra_inter_time(df,i,pmq)
         if len(periods)>= pm and len(periods)!=0:
             p= len(periods[len(periods)-1])
             q = np.median([len(it) for it in periods])

@@ -183,10 +183,14 @@ def plist(orders) :
 
 
 
-def prune_plist(pf_list,min_freq,max_per) :
+def prune_plist(pf_list) :
+    freqs = [pf_list[key]['freq'] for key in pf_list.keys()]
+    min_freq = np.percentile(freqs,20)
+    pers =  [pf_list[key]['freq'] for key in pf_list.keys()]
+    max_per = np.percentile(pers,80)
     for key in pf_list.keys() :
         if pf_list[key]['per'] > max_per or pf_list[key]['freq'] < min_freq :
-        del pf_list[key]
+            del pf_list[key]
 
     for key in pf_list.keys() :
         pf_list[key] = pf_list[key]['freq']
@@ -194,7 +198,7 @@ def prune_plist(pf_list,min_freq,max_per) :
     #print pf_list
     return pf_list
 
-freq = prune_plist(plist(singleuser_with_orderlist[0]),2,6)
+freq = prune_plist(plist(singleuser_with_orderlist[0]))
 
 # fp_tree
 
@@ -252,7 +256,7 @@ for pre,fill,node in RenderTree(fptree1.root):
     print("%s%s" % (pre,node.name))
 
 
-def conditional_patterns(tree_pruned,pattern_node,patterns) :
+def conditional_patterns(tree_pruned,pattern_node,prns) :
 
     for pre, fill, node in RenderTree(tree_pruned.root):
         if  node.name is not 0 :
@@ -265,11 +269,11 @@ def conditional_patterns(tree_pruned,pattern_node,patterns) :
                 f = len(trns)
                 pattern = str(pattern_node) + ","+ str(node.name)
                 if per < 7 and f > 2 :
-                    patterns[pattern] = [f,per]
+                    prns[pattern] = [f,per]
                     #print pattern
             except :
                  pass
-    return patterns
+    return prns
 
 
 def next_pftree(original_tree,node) :
@@ -285,14 +289,15 @@ def next_pftree(original_tree,node) :
     return tem
 
 def generate_patterns(transaction_list,transactions) :
-    freq = prune_plist(transactions,2,6)
+    freq = prune_plist(transactions)
     fptree  = FPTree(transaction_list, freq, 0, 0)
     pf_table = freq.items()
     pf_table.sort(key = operator.itemgetter(1,0))
     patterns = { }
+    prns = {}
     for item in pf_table :
         fptree_pruned = prune_tree(fptree, item[0])
-        pat = conditional_patterns(fptree_pruned,item[0],patterns)
+        pat = conditional_patterns(fptree_pruned,item[0],prns)
         patterns.update(pat)
         fptree = next_pftree(fptree,item[0])
 
@@ -309,25 +314,53 @@ del prior_with_userids
 
 
 def final_submission(prior,orders_df,d_min,userids_list) :
-
+    i = 0
+    submiss = {}
     for z in userids_list :
-        single_user_df = prior[prior['user_id']==z]
-        single_user_df = single_user_df.sort_values(by ='order_number')
-        singleuser_with_orderlist = single_user_df.groupby(['user_id','order_id'])['product_id','order_number'].apply(lambda x: x['product_id'].tolist()).reset_index()
-        final_df = pd.merge(singleuser_with_orderlist,orders_df,on =['order_id','user_id'], how= 'left')
-        transaction_list = final_df[0].tolist()
-        transactions = plist(final_df[0])
-        patrns= generate_patterns(transaction_list,transactions)
-        pm = p_min(final_df, patrns)
-        rated_items = tbp_predictor(final_df,patrns,d_min,pm)
-        predicted_list = final_product_list(final_df,rated_items)
-        print z
-        print predicted_list
-    return predicted_list
+        i = i + 1
+        try :
+            single_user_df = prior[prior['user_id']==z]
+            single_user_df = single_user_df.sort_values(by ='order_number')
+            singleuser_with_orderlist = single_user_df.groupby(['user_id','order_id'])['product_id','order_number'].apply(lambda x: x['product_id'].tolist()).reset_index()
+            final_df = pd.merge(singleuser_with_orderlist,orders_df,on =['order_id','user_id'], how= 'left')
+            transaction_list = final_df[0].tolist()
+            transactions = plist(final_df[0])
+            patrns= generate_patterns(transaction_list,transactions)
+            pm = p_min(final_df, patrns)
+            rated_items = tbp_predictor(final_df,patrns,d_min,pm)
+            predicted_list = final_product_list(final_df,rated_items)
+            #print z
+            #print predicted_list
+            submiss[z] = predicted_list
+        except :
+            pass
+
+        print i ,"users predicted"
+    return submiss
 
 
-kk = final_submission(prior_with_userids,orders_df_test,25,userids_list)
+kk = final_submission(prior_with_userids,orders_df_test,5,userids_list)
+10 - 30 2843
 
+
+sub = pd.DataFrame(kk.items(), columns=['user_id', 'Products'])
+
+
+final = pd.merge(orders_df_test,sub,on = 'user_id' , how = 'outer')
+
+
+def flatten(x) :
+    try :
+        if len(x) == 0:
+            return ' '
+        else  :
+            return " ".join(str(i) for i in x)
+    except :
+        return  ' '
+
+
+final['Products'] = final['Products'].apply(flatten)
+final.to_csv( path_or_buf ="~/sub.csv", header = True )
 prior = prior_with_userids
 
 def submission() :
