@@ -186,7 +186,7 @@ def plist(orders) :
 def prune_plist(pf_list) :
     freqs = [pf_list[key]['freq'] for key in pf_list.keys()]
     min_freq = np.percentile(freqs,20)
-    pers =  [pf_list[key]['freq'] for key in pf_list.keys()]
+    pers =  [pf_list[key]['per'] for key in pf_list.keys()]
     max_per = np.percentile(pers,80)
     for key in pf_list.keys() :
         if pf_list[key]['per'] > max_per or pf_list[key]['freq'] < min_freq :
@@ -329,10 +329,14 @@ def final_submission(prior,orders_df,d_min,userids_list) :
             pm = p_min(final_df, patrns)
             rated_items = tbp_predictor(final_df,patrns,d_min,pm)
             predicted_list = final_product_list(final_df,rated_items)
-            #print z
-            #print predicted_list
+            print z
+            print predicted_list
             submiss[z] = predicted_list
+            if i > 20 :
+                break
+
         except :
+            submiss[z] = ' '
             pass
 
         print i ,"users predicted"
@@ -340,7 +344,7 @@ def final_submission(prior,orders_df,d_min,userids_list) :
 
 
 kk = final_submission(prior_with_userids,orders_df_test,5,userids_list)
-10 - 30 2843
+
 
 
 sub = pd.DataFrame(kk.items(), columns=['user_id', 'Products'])
@@ -363,7 +367,61 @@ final['Products'] = final['Products'].apply(flatten)
 final.to_csv( path_or_buf ="~/sub.csv", header = True )
 prior = prior_with_userids
 
-def submission() :
+
+
+"""Test for one user"""
+
+
+sub = pd.read_csv("/home/prudhvi/Dropbox/MB_project/market-basket/sub.csv")
+
+sub = pd.merge(sub,orders_df_test,on = 'order_id' , how = 'left')
+
+sub.to_csv(path_or_buf ="~/sub.csv", header = True )
+
+
+
+single_user_df = prior_with_userids[prior_with_userids['user_id'] == 12]
+single_user_df = single_user_df.sort_values(by='order_number')
+
+singleuser_with_orderlist = single_user_df.groupby(['user_id','order_id'])['product_id','order_number'].apply(
+    lambda x: x['product_id'].tolist()).reset_index()
+
+
+
+final_df = pd.merge(singleuser_with_orderlist, orders_df, on=['order_id', 'user_id'], how='left')
+transaction_list = final_df[0].tolist()
+transactions = plist(final_df[0])
+patrns = generate_patterns(transaction_list, transactions)
+pm = p_min(final_df, patrns)
+rated_items = tbp_predictor(final_df, patrns, 5, pm)
+predicted_list = final_product_list(final_df, rated_items)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
