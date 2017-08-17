@@ -186,7 +186,7 @@ def plist(orders) :
 def prune_plist(pf_list) :
     freqs = [pf_list[key]['freq'] for key in pf_list.keys()]
     min_freq = np.percentile(freqs,20)
-    pers =  [pf_list[key]['per'] for key in pf_list.keys()]
+    pers = [pf_list[key]['per'] for key in pf_list.keys()]
     max_per = np.percentile(pers,80)
     for key in pf_list.keys() :
         if pf_list[key]['per'] > max_per or pf_list[key]['freq'] < min_freq :
@@ -289,9 +289,9 @@ def next_pftree(original_tree,node) :
     return tem
 
 def generate_patterns(transaction_list,transactions) :
-    freq = prune_plist(transactions)
-    fptree  = FPTree(transaction_list, freq, 0, 0)
-    pf_table = freq.items()
+    frq = prune_plist(transactions)
+    fptree  = FPTree(transaction_list, frq, 0, 0)
+    pf_table = frq.items()
     pf_table.sort(key = operator.itemgetter(1,0))
     patterns = { }
     prns = {}
@@ -382,7 +382,7 @@ sub.to_csv(path_or_buf ="~/sub.csv", header = True )
 
 
 
-single_user_df = prior_with_userids[prior_with_userids['user_id'] == 12]
+single_user_df = prior_with_userids[prior_with_userids['user_id'] == 39]
 single_user_df = single_user_df.sort_values(by='order_number')
 
 singleuser_with_orderlist = single_user_df.groupby(['user_id','order_id'])['product_id','order_number'].apply(
