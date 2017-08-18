@@ -10,6 +10,14 @@ import pandas as pd
 import  anytree
 from anytree import  RenderTree
 from copy import deepcopy
+import math
+from itertools import *
+import numpy as np
+from __future__ import division
+from collections import Counter
+import operator
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_samples, silhouette_score
 
 
 order_products_train_df = pd.read_csv("order_products__train.csv")
@@ -184,8 +192,8 @@ def plist(orders) :
 
 
 def prune_plist(pf_list) :
-    freqs = [pf_list[key]['freq'] for key in pf_list.keys()]
-    min_freq = np.percentile(freqs,20)
+    frqs = [pf_list[key]['freq'] for key in pf_list.keys()]
+    min_freq = np.percentile(frqs,20)
     pers = [pf_list[key]['per'] for key in pf_list.keys()]
     max_per = np.percentile(pers,80)
     for key in pf_list.keys() :
@@ -198,7 +206,7 @@ def prune_plist(pf_list) :
     #print pf_list
     return pf_list
 
-freq = prune_plist(plist(singleuser_with_orderlist[0]))
+#freq = prune_plist(plist(singleuser_with_orderlist[0]))
 
 # fp_tree
 
@@ -251,11 +259,6 @@ def prune_tree(temp_tree,node_value) :
 
 
 
-
-for pre,fill,node in RenderTree(fptree1.root):
-    print("%s%s" % (pre,node.name))
-
-
 def conditional_patterns(tree_pruned,pattern_node,prns) :
 
     for pre, fill, node in RenderTree(tree_pruned.root):
@@ -304,16 +307,166 @@ def generate_patterns(transaction_list,transactions) :
     return patterns
 
 
-orders_df_test = orders_df[orders_df['eval_set']=='test']
-userids_list = list(set(orders_df_test['user_id']))
-prior_with_userids = pd.merge(order_products_prior_df, orders_df, on='order_id', how='left')
 
-del orders_df
-del order_products_prior_df
-del prior_with_userids
+def intra_inter_time(sorted_transactions_df,pattern,del_min,qmin) :
+    time_intra = 0
+    time_inter = 0
+    last = 0
+    intra = []
+    inter = []
+    period = []
+    periods_list = []
+    x = int(pattern.split(',')[0])
+    y = int(pattern.split(',')[1])
+    i = 0
+    for index,row in sorted_transactions_df.iterrows() :
+        if x in row[0] :
+            if i != 0 :
+                time_inter = time_inter + row['days_since_prior_order']
+            last = row['order_number']
+            for index2,row2 in islice(sorted_transactions_df.iterrows(),i+1, None) :
+                if x in row2[0] and y not in row2[0]:
+                    #time_inter = 0
+                    break
+                if y in row2[0] :
+                    time_intra = time_intra + row2['days_since_prior_order']
+                    intra.append(time_intra)
+                    if len(intra) > 1 :
+                        inter.append(time_inter)
+
+                        if time_inter < del_min and last != 0:
+                            period.append(last)
+                        elif len(period) >= qmin:
+                            periods_list.append(period)
+                            period = []
+                        else :
+                            period = []
+                    last = row['order_number']
+                    time_inter = 0
+                    time_intra = 0
+                    break
+                else :
+                    time_intra = time_intra + row2['days_since_prior_order']
+        else:
+            if i != 0 :
+                time_inter = time_inter + row['days_since_prior_order']
+        i = i + 1
+    if len(period) >= qmin:
+        periods_list.append(period)
+
+    return intra,inter,periods_list
 
 
-def final_submission(prior,orders_df,d_min,userids_list) :
+def del_max(sorted_transactions_df,pat) :
+    pats = [item[0] for item in pat.items()]
+    inter_all = []
+    for pat in pats :
+        intra,inter,periods = intra_inter_time(sorted_transactions_df,pat,2,0)
+        if len(inter) == 0 :
+            inter_max = 0
+        else :
+            inter_max = np.median(inter)
+
+        inter_all.append(inter_max)
+
+    cluster_labels = np.digitize(inter_all,bins = np.histogram(inter_all,bins = 'auto')[1])
+    #cluster_labels = [ii[0] for ii in cluster_labels]
+
+    df = pd.DataFrame()
+    df['pats'] = pats
+    df['del_max'] = inter_all
+    df['del_cluster_labels'] = cluster_labels
+    df2 = df.groupby(['del_cluster_labels']).apply(lambda x : np.median(x['del_max'])).reset_index()
+    df3 = pd.merge(df, df2, on='del_cluster_labels', how='left')
+    df3 = df3.rename(columns={0: 'assigned_inter_max'})
+
+    return df3
+
+def q_min(sorted_transactions_df, df) :
+    pats = df['pats'].tolist()
+    del_assigned = df['assigned_inter_max']
+    q_medians = []
+    max_score = -1
+    best_n = 2
+    for y in range(len(pats)) :
+        intra,inter,periods = intra_inter_time(sorted_transactions_df,pats[y],del_assigned[y],0)
+        periods_lens = [len(p) for p in periods]
+        if len(periods_lens) == 0 :
+            q_medians.append(0)
+        else :
+            median_occ = np.median(periods_lens)
+            q_medians.append(median_occ)
+
+    q_labels = np.digitize(q_medians,bins = np.histogram(q_medians,bins = 'auto')[1])
+    #q_labels = [ii[0] for ii in q_labels]
+
+    df['q_medians'] = q_medians
+    df['q_cluster_labels'] = q_labels
+    df2 = df.groupby(['q_cluster_labels']).apply(lambda x: np.median(x['q_medians'])).reset_index()
+    df3 = pd.merge(df, df2, on='q_cluster_labels', how='left')
+    df3 = df3.rename(columns={0: 'assigned_q_min'})
+
+    all_occ = []
+    num_periods = []
+    for index, row in df3.iterrows():
+        intra, inter, periods = intra_inter_time(sorted_transactions_df, row['pats'], row['assigned_inter_max'], row['assigned_q_min'])
+        sum = 0
+        for ps in periods :
+            sum = sum + len(ps)
+        exp_occ = int(sum/len(periods))
+        all_occ.append(exp_occ)
+        num_periods.append(len(periods))
+
+    periods_labels = np.digitize(all_occ,bins = np.histogram(all_occ,bins = 'auto')[1])
+    #periods_labels = [ii[0] for ii in periods_labels]
+
+
+    df3['num_periods'] = num_periods
+    df3['labels_pmin'] = periods_labels
+    df4 = df3.groupby(['labels_pmin']).apply(lambda x: np.median(x['num_periods'])).reset_index()
+    df5 = pd.merge(df3, df4, on='labels_pmin', how='left')
+    df5 = df5.rename(columns={0: 'assigned_p_min'})
+
+    return df5
+
+def tbp_predictor(df,patterns_df) :
+    Q = 0
+    pats = patterns_df['pats'].tolist()
+    tot_items = [m.split(',') for m in pats]
+    tot_items = [item for sublist in tot_items for item in sublist]
+    predictors = Counter(tot_items)
+
+    for index,row in patterns_df.iterrows() :
+        intra, inter, periods = intra_inter_time(df,row['pats'],row['assigned_inter_max'],row['assigned_q_min'])
+        if len(periods) >= row['assigned_p_min'] and len(periods) != 0:
+            p = len(periods[len(periods) - 1])
+            q = row['q_medians']
+            if p ==q :
+                Q = p
+            else :
+                Q = (p-q)/p
+
+        kk = row['pats'].split(',')
+
+        predictors[kk[0]] = predictors[kk[0]] + Q
+        predictors[kk[1]] = predictors[kk[1]] + Q
+
+    return dict(predictors)
+
+
+def final_product_list(sorted_transactions_df, items_dict) :
+    sorted_items = sorted(items_dict.items(), key=operator.itemgetter(1),reverse = True)
+    order_lengths = [len(it) for it in sorted_transactions_df[0]]
+    median_size = int(np.mean(order_lengths))
+    if median_size < len(sorted_items) :
+        final_items = [int(sorted_items[i][0]) for i in range(median_size)]
+    else :
+        final_items = [int(item[0]) for item in sorted_items]
+    return final_items
+
+
+
+def final_submission(prior,orders_df,userids_list) :
     i = 0
     submiss = {}
     for z in userids_list :
@@ -326,63 +479,51 @@ def final_submission(prior,orders_df,d_min,userids_list) :
             transaction_list = final_df[0].tolist()
             transactions = plist(final_df[0])
             patrns= generate_patterns(transaction_list,transactions)
-            pm = p_min(final_df, patrns)
-            rated_items = tbp_predictor(final_df,patrns,d_min,pm)
+            final_df = final_df.sort_values(by = 'order_number')
+            df_with_del_max = del_max(final_df, patrns)
+            df_with_q_del_p = q_min(final_df, df_with_del_max)
+            rated_items = tbp_predictor(final_df,df_with_q_del_p)
             predicted_list = final_product_list(final_df,rated_items)
-            #print z
-            #print predicted_list
+            print z
+            print predicted_list
             submiss[z] = predicted_list
 
             if len(predicted_list) == 0 :
                 submiss[z] = ' '
             else :
                 submiss[z] = " ".join(str(c) for c in predicted_list)
-        except :
+
+        except Exception,e:
+            print z
+            print e
             submiss[z] = ' '
             pass
 
-        print i ,"users predicted"
+        if i > 50 :
+            break
+
+        #print i ,"users predicted"
     return submiss
 
+orders_df_test = orders_df[orders_df['eval_set'] == 'test']
+userids_list = list(set(orders_df_test['user_id']))
+prior_with_userids = pd.merge(order_products_prior_df, orders_df, on='order_id', how='left')
 
-kk = final_submission(prior_with_userids,orders_df_test,5,userids_list)
 
 
+kk = final_submission(prior_with_userids,orders_df,userids_list)
 
 sub = pd.DataFrame(kk.items(), columns=['user_id', 'Products'])
-
-
 final = pd.merge(orders_df_test,sub,on = 'user_id' , how = 'outer')
 
+final.to_csv( path_or_buf ="~/sub.csv", header = True)
 
-def flatten(x) :
-    try :
-        if len(x) == 0:
-            return ' '
-        else  :
-            return " ".join(str(i) for i in x)
-    except :
-        return  ' '
-
-
-final['Products'] = final['Products'].apply(flatten)
-final.to_csv( path_or_buf ="~/sub.csv", header = True )
-prior = prior_with_userids
 
 
 
 """Test for one user"""
 
-
-sub = pd.read_csv("/home/prudhvi/Dropbox/MB_project/market-basket/sub.csv")
-
-sub = pd.merge(sub,orders_df_test,on = 'order_id' , how = 'left')
-
-sub.to_csv(path_or_buf ="~/sub.csv", header = True )
-
-
-
-single_user_df = prior_with_userids[prior_with_userids['user_id'] == 39]
+single_user_df = prior_with_userids[prior_with_userids['user_id'] == 6]
 single_user_df = single_user_df.sort_values(by='order_number')
 
 singleuser_with_orderlist = single_user_df.groupby(['user_id','order_id'])['product_id','order_number'].apply(
@@ -394,31 +535,11 @@ final_df = pd.merge(singleuser_with_orderlist, orders_df, on=['order_id', 'user_
 transaction_list = final_df[0].tolist()
 transactions = plist(final_df[0])
 patrns = generate_patterns(transaction_list, transactions)
-pm = p_min(final_df, patrns)
-rated_items = tbp_predictor(final_df, patrns, 5, pm)
-predicted_list = final_product_list(final_df, rated_items)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+final_df = final_df.sort_values(by='order_number')
+df_with_del_max = del_max(final_df, patrns)
+df_with_q_del_p = q_min(final_df, df_with_del_max)
+rated_items = tbp_predictor(final_df,df_with_q_del_p)
+predicted_list = final_product_list(final_df,rated_items)
 
 
 
@@ -517,5 +638,26 @@ for pre,fill,node in RenderTree(tree.root):
     #print pre
     #node.flag = 0
     print("%s%s" % (pre,node.name))
+
+
+
+for pre,fill,node in RenderTree(fptree1.root):
+    print("%s%s" % (pre,node.name)) 
+    
+    
+def flatten(x) :
+    try :
+        if len(x) == 0:
+            return ' '
+        else  :
+            return " ".join(str(i) for i in x)
+    except :
+        return  ' ' 
+        
+sub = pd.read_csv("/home/prudhvi/Dropbox/MB_project/market-basket/sub.csv")
+
+sub = pd.merge(sub,orders_df_test,on = 'order_id' , how = 'left')
+
+sub.to_csv(path_or_buf ="~/sub.csv", header = True )
 
 """
