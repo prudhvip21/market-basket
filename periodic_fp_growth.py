@@ -18,6 +18,10 @@ from collections import Counter
 import operator
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_samples, silhouette_score
+sys.setrecursionlimit(1500)
+from joblib import Parallel, delayed
+import multiprocessing
+
 
 
 order_products_train_df = pd.read_csv("order_products__train.csv")
@@ -260,22 +264,24 @@ def prune_tree(temp_tree,node_value) :
 
 
 def conditional_patterns(tree_pruned,pattern_node,prns) :
-
     for pre, fill, node in RenderTree(tree_pruned.root):
         if  node.name is not 0 :
             try :
                 trns = node.transactions
-                #print trns
-                k = [(trns[i + 1] - trns[i]) for i in range(len(trns)) if i <= len(trns) - 2]
-                #print k
-                per = max(k)
-                f = len(trns)
-                pattern = str(pattern_node) + ","+ str(node.name)
-                if per < 7 and f > 2 :
-                    prns[pattern] = [f,per]
-                    #print pattern
-            except :
-                 pass
+                if len(trns) > 0  :
+                    #print trns
+                    trns.sort()
+                    k = [(trns[ll + 1] - trns[ll]) for ll in range(len(trns)) if ll <= len(trns) - 2]
+                    #print k
+                    per = max(k)
+                    f = len(trns)
+                    pattern = str(pattern_node) + ","+ str(node.name)
+                    if per < 20 and f > 1 :
+                        prns[pattern] = [f,per]
+                        #print pattern
+            except Exception , e:
+                #print e
+                pass
     return prns
 
 
@@ -291,8 +297,8 @@ def next_pftree(original_tree,node) :
             n = n.link
     return tem
 
-def generate_patterns(transaction_list,transactions) :
-    frq = prune_plist(transactions)
+def generate_patterns(transaction_list,trans) :
+    frq = prune_plist(trans)
     fptree  = FPTree(transaction_list, frq, 0, 0)
     pf_table = frq.items()
     pf_table.sort(key = operator.itemgetter(1,0))
@@ -398,8 +404,6 @@ def q_min(sorted_transactions_df, df) :
             q_medians.append(median_occ)
 
     q_labels = np.digitize(q_medians,bins = np.histogram(q_medians,bins = 'auto')[1])
-    #q_labels = [ii[0] for ii in q_labels]
-
     df['q_medians'] = q_medians
     df['q_cluster_labels'] = q_labels
     df2 = df.groupby(['q_cluster_labels']).apply(lambda x: np.median(x['q_medians'])).reset_index()
@@ -418,15 +422,11 @@ def q_min(sorted_transactions_df, df) :
         num_periods.append(len(periods))
 
     periods_labels = np.digitize(all_occ,bins = np.histogram(all_occ,bins = 'auto')[1])
-    #periods_labels = [ii[0] for ii in periods_labels]
-
-
     df3['num_periods'] = num_periods
     df3['labels_pmin'] = periods_labels
     df4 = df3.groupby(['labels_pmin']).apply(lambda x: np.median(x['num_periods'])).reset_index()
     df5 = pd.merge(df3, df4, on='labels_pmin', how='left')
     df5 = df5.rename(columns={0: 'assigned_p_min'})
-
     return df5
 
 def tbp_predictor(df,patterns_df) :
@@ -457,7 +457,7 @@ def tbp_predictor(df,patterns_df) :
 def final_product_list(sorted_transactions_df, items_dict) :
     sorted_items = sorted(items_dict.items(), key=operator.itemgetter(1),reverse = True)
     order_lengths = [len(it) for it in sorted_transactions_df[0]]
-    median_size = int(np.mean(order_lengths))
+    median_size = int(np.median(order_lengths))
     if median_size < len(sorted_items) :
         final_items = [int(sorted_items[i][0]) for i in range(median_size)]
     else :
@@ -469,6 +469,7 @@ def final_product_list(sorted_transactions_df, items_dict) :
 def final_submission(prior,orders_df,userids_list) :
     i = 0
     submiss = {}
+
     for z in userids_list :
         i = i + 1
         try :
@@ -477,15 +478,15 @@ def final_submission(prior,orders_df,userids_list) :
             singleuser_with_orderlist = single_user_df.groupby(['user_id','order_id'])['product_id','order_number'].apply(lambda x: x['product_id'].tolist()).reset_index()
             final_df = pd.merge(singleuser_with_orderlist,orders_df,on =['order_id','user_id'], how= 'left')
             transaction_list = final_df[0].tolist()
-            transactions = plist(final_df[0])
-            patrns= generate_patterns(transaction_list,transactions)
+            trans = plist(final_df[0])
+            patrns= generate_patterns(transaction_list,trans)
             final_df = final_df.sort_values(by = 'order_number')
             df_with_del_max = del_max(final_df, patrns)
             df_with_q_del_p = q_min(final_df, df_with_del_max)
             rated_items = tbp_predictor(final_df,df_with_q_del_p)
             predicted_list = final_product_list(final_df,rated_items)
-            print z
-            print predicted_list
+            #print z
+            #print predicted_list
             submiss[z] = predicted_list
 
             if len(predicted_list) == 0 :
@@ -494,24 +495,55 @@ def final_submission(prior,orders_df,userids_list) :
                 submiss[z] = " ".join(str(c) for c in predicted_list)
 
         except Exception,e:
-            print z
-            print e
+            #print z
+            #print e
             submiss[z] = ' '
             pass
-
-        if i > 50 :
-            break
-
-        #print i ,"users predicted"
+        print i ,"users predicted"
     return submiss
+
+
 
 orders_df_test = orders_df[orders_df['eval_set'] == 'test']
 userids_list = list(set(orders_df_test['user_id']))
 prior_with_userids = pd.merge(order_products_prior_df, orders_df, on='order_id', how='left')
 
-
-
 kk = final_submission(prior_with_userids,orders_df,userids_list)
+
+8 59 
+
+
+
+""" multiprocessing"""
+
+num_cores = multiprocessing.cpu_count()
+
+def final_submission(z,prior,orders_df,userids_list) :
+    try :
+        single_user_df = prior[prior['user_id']==z]
+        single_user_df = single_user_df.sort_values(by ='order_number')
+        singleuser_with_orderlist = single_user_df.groupby(['user_id','order_id'])['product_id','order_number'].apply(lambda x: x['product_id'].tolist()).reset_index()
+        final_df = pd.merge(singleuser_with_orderlist,orders_df,on =['order_id','user_id'], how= 'left')
+        transaction_list = final_df[0].tolist()
+        trans = plist(final_df[0])
+        patrns= generate_patterns(transaction_list,trans)
+        final_df = final_df.sort_values(by = 'order_number')
+        df_with_del_max = del_max(final_df, patrns)
+        df_with_q_del_p = q_min(final_df, df_with_del_max)
+        rated_items = tbp_predictor(final_df,df_with_q_del_p)
+        predicted_list = final_product_list(final_df,rated_items)
+        predicted_list = " ".join(str(c) for c in predicted_list)
+    except :
+        predicted_list = ' '
+    print userids_list.index(z) , "users predicted"
+    return predicted_list
+
+
+
+results = Parallel(n_jobs=num_cores)(delayed(final_submission)(z,prior_with_userids,orders_df,userids_list) for z in userids_list)
+
+8 53
+
 
 sub = pd.DataFrame(kk.items(), columns=['user_id', 'Products'])
 final = pd.merge(orders_df_test,sub,on = 'user_id' , how = 'outer')
@@ -519,11 +551,11 @@ final = pd.merge(orders_df_test,sub,on = 'user_id' , how = 'outer')
 final.to_csv( path_or_buf ="~/sub.csv", header = True)
 
 
-
+#9 55 pm - start
 
 """Test for one user"""
 
-single_user_df = prior_with_userids[prior_with_userids['user_id'] == 6]
+single_user_df = prior_with_userids[prior_with_userids['user_id'] == 131093]
 single_user_df = single_user_df.sort_values(by='order_number')
 
 singleuser_with_orderlist = single_user_df.groupby(['user_id','order_id'])['product_id','order_number'].apply(
@@ -533,8 +565,8 @@ singleuser_with_orderlist = single_user_df.groupby(['user_id','order_id'])['prod
 
 final_df = pd.merge(singleuser_with_orderlist, orders_df, on=['order_id', 'user_id'], how='left')
 transaction_list = final_df[0].tolist()
-transactions = plist(final_df[0])
-patrns = generate_patterns(transaction_list, transactions)
+trans = plist(final_df[0])
+patrns = generate_patterns(transaction_list, trans)
 final_df = final_df.sort_values(by='order_number')
 df_with_del_max = del_max(final_df, patrns)
 df_with_q_del_p = q_min(final_df, df_with_del_max)
