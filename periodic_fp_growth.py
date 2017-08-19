@@ -258,7 +258,6 @@ def prune_tree(temp_tree,node_value) :
                     temp.parent.transactions = list(set(temp.parent.transactions))
 
                 temp = temp.parent
-
     return tree
 
 
@@ -469,7 +468,6 @@ def final_product_list(sorted_transactions_df, items_dict) :
 def final_submission(prior,orders_df,userids_list) :
     i = 0
     submiss = {}
-
     for z in userids_list :
         i = i + 1
         try :
@@ -507,10 +505,13 @@ def final_submission(prior,orders_df,userids_list) :
 orders_df_test = orders_df[orders_df['eval_set'] == 'test']
 userids_list = list(set(orders_df_test['user_id']))
 prior_with_userids = pd.merge(order_products_prior_df, orders_df, on='order_id', how='left')
+userids1 = userids_list[0:int(len(userids_list)/2)]
+userids2 = userids_list[int((len(userids_list)/2)):]
 
-kk = final_submission(prior_with_userids,orders_df,userids_list)
+kk1 = final_submission(prior_with_userids,orders_df,userids1)
+kk2 = final_submission(prior_with_userids,orders_df,userids2)
 
-8 59 
+8 59
 
 
 
