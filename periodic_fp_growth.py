@@ -505,13 +505,14 @@ def final_submission(prior,orders_df,userids_list) :
 orders_df_test = orders_df[orders_df['eval_set'] == 'test']
 userids_list = list(set(orders_df_test['user_id']))
 prior_with_userids = pd.merge(order_products_prior_df, orders_df, on='order_id', how='left')
-userids1 = userids_list[0:int(len(userids_list)/2)]
-userids2 = userids_list[int((len(userids_list)/2)):]
+
+userids1 = userids_list[0:42000]
+userids2 = userids_list[42000:]
 
 kk1 = final_submission(prior_with_userids,orders_df,userids1)
 kk2 = final_submission(prior_with_userids,orders_df,userids2)
 
-8 59
+2 05
 
 
 
