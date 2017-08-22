@@ -512,7 +512,7 @@ userids2 = userids_list[42000:]
 kk1 = final_submission(prior_with_userids,orders_df,userids1)
 kk2 = final_submission(prior_with_userids,orders_df,userids2)
 
-2 05
+
 
 
 
@@ -544,7 +544,8 @@ def final_submission(z,prior,orders_df,userids_list) :
 
 results = Parallel(n_jobs=num_cores)(delayed(final_submission)(z,prior_with_userids,orders_df,userids_list) for z in userids_list)
 
-8 53
+
+
 
 
 sub = pd.DataFrame(kk.items(), columns=['user_id', 'Products'])
@@ -553,7 +554,7 @@ final = pd.merge(orders_df_test,sub,on = 'user_id' , how = 'outer')
 final.to_csv( path_or_buf ="~/sub.csv", header = True)
 
 
-#9 55 pm - start
+
 
 """Test for one user"""
 
@@ -562,7 +563,6 @@ single_user_df = single_user_df.sort_values(by='order_number')
 
 singleuser_with_orderlist = single_user_df.groupby(['user_id','order_id'])['product_id','order_number'].apply(
     lambda x: x['product_id'].tolist()).reset_index()
-
 
 
 final_df = pd.merge(singleuser_with_orderlist, orders_df, on=['order_id', 'user_id'], how='left')
@@ -576,6 +576,11 @@ rated_items = tbp_predictor(final_df,df_with_q_del_p)
 predicted_list = final_product_list(final_df,rated_items)
 
 
+
+""" Testing on train data """
+
+orders_df_train = orders_df[orders_df['eval_set'] == 'train']
+train_userids_list = list(set(orders_df_train['user_id']))
 
 
 
