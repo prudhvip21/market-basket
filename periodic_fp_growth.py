@@ -514,8 +514,6 @@ kk2 = final_submission(prior_with_userids,orders_df,userids2)
 
 
 
-
-
 """ multiprocessing"""
 
 num_cores = multiprocessing.cpu_count()
@@ -545,20 +543,39 @@ def final_submission(z,prior,orders_df,userids_list) :
 results = Parallel(n_jobs=num_cores)(delayed(final_submission)(z,prior_with_userids,orders_df,userids_list) for z in userids_list)
 
 
+sub_42 = pd.DataFrame(kk1.items(), columns=['user_id', 'Products'])
+
+final_42 = pd.merge(sub_42,orders_df_test,on = 'user_id')
+
+final_42 = final_42.rename(columns = {'Products' : 'products'})
+
+final_42.drop(final_42.columns[[0,3,4,5,6,7]],inplace=True,axis=1)
+merged = final_42.merge(sub_75, indicator=True,on ='order_id' ,how='outer')
+
+final_33 = merged[merged['_merge'] == 'right_only']
+
+final_33 = final_33.rename(columns = {'products_y' : 'products'})
+
+del final_33['products_x']
+del final_33['_merge']
 
 
+final_75 = pd.concat([final_33,final_42])
 
-sub = pd.DataFrame(kk.items(), columns=['user_id', 'Products'])
-final = pd.merge(orders_df_test,sub,on = 'user_id' , how = 'outer')
+final_42.to_csv( path_or_buf ="~/sub42.csv", header = True)
 
-final.to_csv( path_or_buf ="~/sub.csv", header = True)
+
+sub_75 = pd.read_csv("/home/prudhvi/Dropbox/MB_project/market-basket/sub_2.csv")
 
 
 
 
 """Test for one user"""
 
-single_user_df = prior_with_userids[prior_with_userids['user_id'] == 131093]
+
+prior_with_userids = pd.merge(order_products_prior_df, orders_df, on='order_id', how='left')
+
+single_user_df = prior_with_userids[prior_with_userids['user_id'] == 165]
 single_user_df = single_user_df.sort_values(by='order_number')
 
 singleuser_with_orderlist = single_user_df.groupby(['user_id','order_id'])['product_id','order_number'].apply(
@@ -577,6 +594,7 @@ predicted_list = final_product_list(final_df,rated_items)
 
 
 
+<<<<<<< HEAD
 """ Testing on train data """
 
 orders_df_train = orders_df[orders_df['eval_set'] == 'train']
@@ -588,6 +606,8 @@ train_userids_list = list(set(orders_df_train['user_id']))
 
 
 
+=======
+>>>>>>> 488b54478da123d2d6a8b2bb5774fb8ada056dd0
 """Junk Code   
 
 
