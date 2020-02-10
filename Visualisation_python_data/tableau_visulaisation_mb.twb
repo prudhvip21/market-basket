@@ -1,0 +1,2424 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<!-- build 10400.17.0915.2112                               -->
+<workbook original-version='10.4' source-build='10.4.0 (10400.17.0915.2112)' source-platform='win' version='10.4' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <datasources>
+    <datasource caption='reordered_vs_add-to-cart' inline='true' name='federated.1rr4mky17mtbhf17u8cc804mvnzq' version='10.4'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='reordered_vs_add-to-cart' name='textscan.01g1lgd0mnxbso157eq8n1shk8xp'>
+            <connection class='textscan' directory='D:/Saurabh Main Data/Saurabh Updated Data/Saurabh Data/Market Basket Analysis/market_basket_data' filename='reordered_vs_add-to-cart.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.01g1lgd0mnxbso157eq8n1shk8xp' name='reordered_vs_add-to-cart.csv' table='[reordered_vs_add-to-cart#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='integer' name='add_to_cart_order' ordinal='0' />
+            <column datatype='real' name='reordered_ratio' ordinal='1' />
+          </columns>
+        </relation>
+        <metadata-records>
+          <metadata-record class='column'>
+            <remote-name>add_to_cart_order</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[add_to_cart_order]</local-name>
+            <parent-name>[reordered_vs_add-to-cart.csv]</parent-name>
+            <remote-alias>add_to_cart_order</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>reordered_ratio</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[reordered_ratio]</local-name>
+            <parent-name>[reordered_vs_add-to-cart.csv]</parent-name>
+            <remote-alias>reordered_ratio</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[reordered_vs_add-to-cart.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+            </attributes>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
+        <calculation class='tableau' formula='1' />
+      </column>
+      <column caption='Add To Cart Order' datatype='integer' name='[add_to_cart_order]' role='measure' type='quantitative' />
+      <column caption='Reordered Ratio' datatype='real' name='[reordered_ratio]' role='measure' type='quantitative' />
+      <layout dim-ordering='alphabetic' dim-percentage='0.388278' measure-ordering='alphabetic' measure-percentage='0.611722' show-structure='true' />
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
+      </semantic-values>
+    </datasource>
+    <datasource caption='no_of_products_in_each_order' inline='true' name='federated.0r6bg8f10ichey1g4yftv0gc8l1h' version='10.4'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='no_of_products_in_each_order' name='textscan.0439wei109967113t8q3w0w9cqzm'>
+            <connection class='textscan' directory='D:/Saurabh Main Data/Saurabh Updated Data/Saurabh Data/Market Basket Analysis/market_basket_data' filename='no_of_products_in_each_order.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.0439wei109967113t8q3w0w9cqzm' name='no_of_products_in_each_order.csv' table='[no_of_products_in_each_order#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='integer' name='Num of products' ordinal='0' />
+            <column datatype='integer' name='Number of orders' ordinal='1' />
+          </columns>
+        </relation>
+        <metadata-records>
+          <metadata-record class='column'>
+            <remote-name>Num of products</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Num of products]</local-name>
+            <parent-name>[no_of_products_in_each_order.csv]</parent-name>
+            <remote-alias>Num of products</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Number of orders</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Number of orders]</local-name>
+            <parent-name>[no_of_products_in_each_order.csv]</parent-name>
+            <remote-alias>Number of orders</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[no_of_products_in_each_order.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+            </attributes>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
+        <calculation class='tableau' formula='1' />
+      </column>
+      <layout dim-ordering='alphabetic' dim-percentage='0.388278' measure-ordering='alphabetic' measure-percentage='0.611722' show-structure='true' />
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
+      </semantic-values>
+    </datasource>
+    <datasource caption='no_of_products_in_each_order_non_repeat_removed' inline='true' name='federated.0bpyd681bhbx3m173vnc015eqi3a' version='10.4'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='no_of_products_in_each_order_non_repeat_removed' name='textscan.012u6dq06ifm1j1dwduwl0xnebuj'>
+            <connection class='textscan' directory='D:/Saurabh Main Data/Saurabh Updated Data/Saurabh Data/Market Basket Analysis/market_basket_data' filename='no_of_products_in_each_order_non_repeat_removed.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.012u6dq06ifm1j1dwduwl0xnebuj' name='no_of_products_in_each_order_non_repeat_removed.csv' table='[no_of_products_in_each_order_non_repeat_removed#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='integer' name='Num of products in order' ordinal='0' />
+            <column datatype='integer' name='Number of orders' ordinal='1' />
+          </columns>
+        </relation>
+        <metadata-records>
+          <metadata-record class='column'>
+            <remote-name>Num of products in order</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Num of products in order]</local-name>
+            <parent-name>[no_of_products_in_each_order_non_repeat_removed.csv]</parent-name>
+            <remote-alias>Num of products in order</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Number of orders</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Number of orders]</local-name>
+            <parent-name>[no_of_products_in_each_order_non_repeat_removed.csv]</parent-name>
+            <remote-alias>Number of orders</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[no_of_products_in_each_order_non_repeat_removed.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+            </attributes>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
+        <calculation class='tableau' formula='1' />
+      </column>
+      <layout dim-ordering='alphabetic' dim-percentage='0.388278' measure-ordering='alphabetic' measure-percentage='0.611722' show-structure='true' />
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
+      </semantic-values>
+    </datasource>
+    <datasource caption='order_products__prior' inline='true' name='federated.1p5rv4g1mfgfxn10wv47m15sd1dv' version='10.4'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='order_products__prior' name='textscan.03qefol0j1yf7l17fu9wd19d6sxt'>
+            <connection class='textscan' directory='D:/Saurabh Main Data/Saurabh Updated Data/Saurabh Data/Market Basket Analysis/market_basket_data' filename='order_products__prior.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.03qefol0j1yf7l17fu9wd19d6sxt' name='days_since_prior_order.csv' table='[days_since_prior_order#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='integer' name='Days_since_prior_order' ordinal='0' />
+            <column datatype='integer' name='Number_of_orders' ordinal='1' />
+          </columns>
+        </relation>
+        <metadata-records>
+          <metadata-record class='column'>
+            <remote-name>Days_since_prior_order</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Days_since_prior_order]</local-name>
+            <parent-name>[days_since_prior_order.csv]</parent-name>
+            <remote-alias>Days_since_prior_order</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Number_of_orders</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Number_of_orders]</local-name>
+            <parent-name>[days_since_prior_order.csv]</parent-name>
+            <remote-alias>Number_of_orders</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[days_since_prior_order.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+            </attributes>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column caption='Days since prior order' datatype='integer' name='[Days_since_prior_order]' role='measure' type='quantitative' />
+      <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
+        <calculation class='tableau' formula='1' />
+      </column>
+      <column caption='Number of orders' datatype='integer' name='[Number_of_orders]' role='measure' type='quantitative' />
+      <layout dim-ordering='alphabetic' dim-percentage='0.47619' measure-ordering='alphabetic' measure-percentage='0.52381' show-structure='true' />
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
+      </semantic-values>
+    </datasource>
+    <datasource caption='days_since_prior_order' inline='true' name='federated.1d5mfwr0yctflg14w7v4z1jyl7z8' version='10.4'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='days_since_prior_order' name='textscan.1n4tkzb12g9oq8178qqw1068oa1k'>
+            <connection class='textscan' directory='D:/Saurabh Main Data/Saurabh Updated Data/Saurabh Data/Market Basket Analysis/market_basket_data' filename='days_since_prior_order.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.1n4tkzb12g9oq8178qqw1068oa1k' name='days_since_prior_order.csv' table='[days_since_prior_order#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='integer' name='Days_since_prior_order' ordinal='0' />
+            <column datatype='integer' name='Number_of_orders' ordinal='1' />
+          </columns>
+        </relation>
+        <metadata-records>
+          <metadata-record class='column'>
+            <remote-name>Days_since_prior_order</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Days_since_prior_order]</local-name>
+            <parent-name>[days_since_prior_order.csv]</parent-name>
+            <remote-alias>Days_since_prior_order</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Number_of_orders</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Number_of_orders]</local-name>
+            <parent-name>[days_since_prior_order.csv]</parent-name>
+            <remote-alias>Number_of_orders</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[days_since_prior_order.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+            </attributes>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column caption='Days since prior order' datatype='integer' name='[Days_since_prior_order]' role='measure' type='quantitative' />
+      <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
+        <calculation class='tableau' formula='1' />
+      </column>
+      <column caption='Number of orders' datatype='integer' name='[Number_of_orders]' role='measure' type='quantitative' />
+      <layout dim-ordering='alphabetic' dim-percentage='0.388278' measure-ordering='alphabetic' measure-percentage='0.611722' show-structure='true' />
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
+      </semantic-values>
+    </datasource>
+    <datasource caption='num_of_orders_per_customer' inline='true' name='federated.0f945of0zlylnw1c94rxk0u0u3c5' version='10.4'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='num_of_orders_per_customer' name='textscan.15tb5550vwk2te14yke5y13igbfd'>
+            <connection class='textscan' directory='D:/Saurabh Main Data/Saurabh Updated Data/Saurabh Data/Market Basket Analysis/market_basket_data' filename='num_of_orders_per_customer.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.15tb5550vwk2te14yke5y13igbfd' name='num_of_orders_per_customer.csv' table='[num_of_orders_per_customer#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='integer' name='order_id' ordinal='0' />
+            <column datatype='integer' name='user_id' ordinal='1' />
+          </columns>
+        </relation>
+        <metadata-records>
+          <metadata-record class='column'>
+            <remote-name>order_id</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[order_id]</local-name>
+            <parent-name>[num_of_orders_per_customer.csv]</parent-name>
+            <remote-alias>order_id</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>user_id</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[user_id]</local-name>
+            <parent-name>[num_of_orders_per_customer.csv]</parent-name>
+            <remote-alias>user_id</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[num_of_orders_per_customer.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+            </attributes>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
+        <calculation class='tableau' formula='1' />
+      </column>
+      <column caption='Order Id' datatype='integer' name='[order_id]' role='dimension' type='ordinal' />
+      <column caption='User Id' datatype='integer' name='[user_id]' role='dimension' type='ordinal' />
+      <layout dim-ordering='alphabetic' dim-percentage='0.538462' measure-ordering='alphabetic' measure-percentage='0.461538' show-structure='true' />
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
+      </semantic-values>
+    </datasource>
+    <datasource caption='most_ordered_products_with_names' inline='true' name='federated.1y2n61c1wu9n0g15ocb6u034w89a' version='10.4'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='most_ordered_products_with_names' name='textscan.06km64x0neggr90zjc9bg09rbuu0'>
+            <connection class='textscan' directory='D:/Saurabh Main Data/Saurabh Updated Data/Saurabh Data/Market Basket Analysis/market_basket_data' filename='most_ordered_products_with_names.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.06km64x0neggr90zjc9bg09rbuu0' name='most_ordered_products_with_names.csv' table='[most_ordered_products_with_names#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='string' name='Product Name' ordinal='0' />
+            <column datatype='integer' name='Number of times purchased' ordinal='1' />
+          </columns>
+        </relation>
+        <metadata-records>
+          <metadata-record class='column'>
+            <remote-name>Product Name</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Product Name]</local-name>
+            <parent-name>[most_ordered_products_with_names.csv]</parent-name>
+            <remote-alias>Product Name</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteCollation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;heap&quot;</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>4294967292</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;str&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Number of times purchased</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Number of times purchased]</local-name>
+            <parent-name>[most_ordered_products_with_names.csv]</parent-name>
+            <remote-alias>Number of times purchased</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[most_ordered_products_with_names.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+            </attributes>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
+        <calculation class='tableau' formula='1' />
+      </column>
+      <layout dim-ordering='alphabetic' dim-percentage='0.461538' measure-ordering='alphabetic' measure-percentage='0.538462' show-structure='true' />
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
+      </semantic-values>
+    </datasource>
+    <datasource caption='top_sold_aisles' inline='true' name='federated.1bd4e1e1glqbyb17fg5fl1u37pi6' version='10.4'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='top_sold_aisles' name='textscan.0ob2s070qf5vwa10rwd2l1kcv2zt'>
+            <connection class='textscan' directory='D:/Saurabh Main Data/Saurabh Updated Data/Saurabh Data/Market Basket Analysis/market_basket_data' filename='top_sold_aisles.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.0ob2s070qf5vwa10rwd2l1kcv2zt' name='top_sold_aisles.csv' table='[top_sold_aisles#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='string' name='AIsle name' ordinal='0' />
+            <column datatype='integer' name='Number of times pruchased' ordinal='1' />
+          </columns>
+        </relation>
+        <metadata-records>
+          <metadata-record class='column'>
+            <remote-name>AIsle name</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[AIsle name]</local-name>
+            <parent-name>[top_sold_aisles.csv]</parent-name>
+            <remote-alias>AIsle name</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteCollation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;heap&quot;</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>4294967292</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;str&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Number of times pruchased</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Number of times pruchased]</local-name>
+            <parent-name>[top_sold_aisles.csv]</parent-name>
+            <remote-alias>Number of times pruchased</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[top_sold_aisles.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+            </attributes>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
+        <calculation class='tableau' formula='1' />
+      </column>
+      <layout dim-ordering='alphabetic' dim-percentage='0.461538' measure-ordering='alphabetic' measure-percentage='0.538462' show-structure='true' />
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
+      </semantic-values>
+    </datasource>
+    <datasource caption='users_vs_non_repeat_users' inline='true' name='federated.1fplrlb0i0vxxy17c7zfx0g9da1r' version='10.4'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='users_vs_non_repeat_users' name='textscan.0nvz5l30si2tmi0zrgwl314fxtu8'>
+            <connection class='textscan' directory='D:/Saurabh Main Data/Saurabh Updated Data/Saurabh Data/Market Basket Analysis/market_basket_data' filename='users_vs_non_repeat_users.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.0nvz5l30si2tmi0zrgwl314fxtu8' name='users_vs_non_repeat_users.csv' table='[users_vs_non_repeat_users#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='integer' name='num_of_orders' ordinal='0' />
+            <column datatype='integer' name='no_of_users' ordinal='1' />
+            <column datatype='integer' name='no_of_users_with_days_since&gt;30' ordinal='2' />
+          </columns>
+        </relation>
+        <metadata-records>
+          <metadata-record class='column'>
+            <remote-name>num_of_orders</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[num_of_orders]</local-name>
+            <parent-name>[users_vs_non_repeat_users.csv]</parent-name>
+            <remote-alias>num_of_orders</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>no_of_users</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[no_of_users]</local-name>
+            <parent-name>[users_vs_non_repeat_users.csv]</parent-name>
+            <remote-alias>no_of_users</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>no_of_users_with_days_since&gt;30</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[no_of_users_with_days_since&gt;30]</local-name>
+            <parent-name>[users_vs_non_repeat_users.csv]</parent-name>
+            <remote-alias>no_of_users_with_days_since&gt;30</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[users_vs_non_repeat_users.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+            </attributes>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
+        <calculation class='tableau' formula='1' />
+      </column>
+      <column caption='No Of Users' datatype='integer' name='[no_of_users]' role='measure' type='quantitative' />
+      <column caption='No Of Users With Days Since&gt;30' datatype='integer' name='[no_of_users_with_days_since&gt;30]' role='measure' type='quantitative' />
+      <column caption='Num Of Orders' datatype='integer' name='[num_of_orders]' role='measure' type='quantitative' />
+      <column-instance column='[Number of Records]' derivation='Sum' name='[sum:Number of Records:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[no_of_users]' derivation='Sum' name='[sum:no_of_users:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[no_of_users_with_days_since&gt;30]' derivation='Sum' name='[sum:no_of_users_with_days_since&gt;30:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[num_of_orders]' derivation='Sum' name='[sum:num_of_orders:qk]' pivot='key' type='quantitative' />
+      <layout dim-ordering='alphabetic' dim-percentage='0.351648' measure-ordering='alphabetic' measure-percentage='0.648352' show-structure='true' />
+      <style>
+        <style-rule element='mark'>
+          <encoding attr='color' field='[:Measure Names]' type='palette'>
+            <map to='#4e79a7'>
+              <bucket>&quot;[federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[sum:no_of_users:qk]&quot;</bucket>
+            </map>
+            <map to='#76b7b2'>
+              <bucket>&quot;[federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[sum:Number of Records:qk]&quot;</bucket>
+            </map>
+            <map to='#e15759'>
+              <bucket>&quot;[federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[sum:no_of_users_with_days_since&gt;30:qk]&quot;</bucket>
+            </map>
+            <map to='#e15759'>
+              <bucket>&quot;[federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[sum:num_of_orders:qk]&quot;</bucket>
+            </map>
+          </encoding>
+        </style-rule>
+      </style>
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
+      </semantic-values>
+    </datasource>
+    <datasource caption='binned_users_based_on_days_since' inline='true' name='federated.034bcdd1ocvb5q1dqkl350db04w4' version='10.4'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='binned_users_based_on_days_since' name='textscan.0s9lssj0b270ct185btz31i21wvj'>
+            <connection class='textscan' directory='D:/Saurabh Main Data/Saurabh Updated Data/Saurabh Data/Market Basket Analysis/market_basket_data' filename='binned_users_based_on_days_since.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.0s9lssj0b270ct185btz31i21wvj' name='binned_users_based_on_days_since.csv' table='[binned_users_based_on_days_since#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='integer' name='No_of_users' ordinal='0' />
+            <column datatype='string' name='Frequency' ordinal='1' />
+          </columns>
+        </relation>
+        <metadata-records>
+          <metadata-record class='column'>
+            <remote-name>No_of_users</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[No_of_users]</local-name>
+            <parent-name>[binned_users_based_on_days_since.csv]</parent-name>
+            <remote-alias>No_of_users</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Frequency</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Frequency]</local-name>
+            <parent-name>[binned_users_based_on_days_since.csv]</parent-name>
+            <remote-alias>Frequency</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteCollation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;heap&quot;</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>4294967292</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;str&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[binned_users_based_on_days_since.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+            </attributes>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column caption='No of users' datatype='integer' name='[No_of_users]' role='measure' type='quantitative' />
+      <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
+        <calculation class='tableau' formula='1' />
+      </column>
+      <layout dim-ordering='alphabetic' dim-percentage='0.461538' measure-ordering='alphabetic' measure-percentage='0.538462' show-structure='true' />
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
+      </semantic-values>
+    </datasource>
+    <datasource caption='departments_size_reorders_size' inline='true' name='federated.04jdryo0i1bem91dq6ywq1m920uy' version='10.4'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='departments_size_reorders_size' name='textscan.0rfto4j1dgta8j131se0x0esnksx'>
+            <connection class='textscan' directory='D:/Saurabh Main Data/Saurabh Updated Data/Saurabh Data/Market Basket Analysis/market_basket_data' filename='departments_size_reorders_size.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.0rfto4j1dgta8j131se0x0esnksx' name='departments_size_reorders_size.csv' table='[departments_size_reorders_size#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='integer' name='Dept_id' ordinal='0' />
+            <column datatype='string' name='Department_name' ordinal='1' />
+            <column datatype='real' name='reordered_ratio' ordinal='2' />
+            <column datatype='real' name='Proportion_of_whole_purchase' ordinal='3' />
+          </columns>
+        </relation>
+        <metadata-records>
+          <metadata-record class='column'>
+            <remote-name>Dept_id</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Dept_id]</local-name>
+            <parent-name>[departments_size_reorders_size.csv]</parent-name>
+            <remote-alias>Dept_id</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Department_name</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Department_name]</local-name>
+            <parent-name>[departments_size_reorders_size.csv]</parent-name>
+            <remote-alias>Department_name</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteCollation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;heap&quot;</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>4294967292</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;str&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>reordered_ratio</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[reordered_ratio]</local-name>
+            <parent-name>[departments_size_reorders_size.csv]</parent-name>
+            <remote-alias>reordered_ratio</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Proportion_of_whole_purchase</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[Proportion_of_whole_purchase]</local-name>
+            <parent-name>[departments_size_reorders_size.csv]</parent-name>
+            <remote-alias>Proportion_of_whole_purchase</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[departments_size_reorders_size.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+            </attributes>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column caption='Department name' datatype='string' name='[Department_name]' role='dimension' type='nominal' />
+      <column caption='Dept id' datatype='integer' name='[Dept_id]' role='dimension' type='ordinal' />
+      <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
+        <calculation class='tableau' formula='1' />
+      </column>
+      <column caption='Proportion of whole purchase' datatype='real' name='[Proportion_of_whole_purchase]' role='measure' type='quantitative' />
+      <column caption='Reordered Ratio' datatype='real' name='[reordered_ratio]' role='measure' type='quantitative' />
+      <column-instance column='[Proportion_of_whole_purchase]' derivation='Sum' name='[sum:Proportion_of_whole_purchase:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[reordered_ratio]' derivation='Sum' name='[sum:reordered_ratio:qk]' pivot='key' type='quantitative' />
+      <layout dim-ordering='alphabetic' dim-percentage='0.461538' measure-ordering='alphabetic' measure-percentage='0.538462' show-structure='true' />
+      <style>
+        <style-rule element='mark'>
+          <encoding attr='color' field='[:Measure Names]' type='palette'>
+            <map to='#4e79a7'>
+              <bucket>&quot;[federated.04jdryo0i1bem91dq6ywq1m920uy].[sum:reordered_ratio:qk]&quot;</bucket>
+            </map>
+            <map to='#e15759'>
+              <bucket>&quot;[federated.04jdryo0i1bem91dq6ywq1m920uy].[sum:Proportion_of_whole_purchase:qk]&quot;</bucket>
+            </map>
+          </encoding>
+        </style-rule>
+      </style>
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
+      </semantic-values>
+    </datasource>
+  </datasources>
+  <worksheets>
+    <worksheet name='Add to cart vs Reordered Ratio'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='reordered_vs_add-to-cart' name='federated.1rr4mky17mtbhf17u8cc804mvnzq' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1rr4mky17mtbhf17u8cc804mvnzq'>
+            <column caption='Add To Cart Order' datatype='integer' name='[add_to_cart_order]' role='measure' type='quantitative' />
+            <column-instance column='[reordered_ratio]' derivation='Avg' name='[avg:reordered_ratio:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[add_to_cart_order]' derivation='None' name='[none:add_to_cart_order:qk]' pivot='key' type='quantitative' />
+            <column caption='Reordered Ratio' datatype='real' name='[reordered_ratio]' role='measure' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='axis'>
+            <encoding attr='space' class='1' field='[federated.1rr4mky17mtbhf17u8cc804mvnzq].[avg:reordered_ratio:qk]' field-type='quantitative' fold='true' scope='rows' synchronized='true' type='space' />
+            <format attr='display' class='1' field='[federated.1rr4mky17mtbhf17u8cc804mvnzq].[avg:reordered_ratio:qk]' scope='rows' value='false' />
+          </style-rule>
+          <style-rule element='header'>
+            <format attr='border-style' data-class='total' value='none' />
+          </style-rule>
+          <style-rule element='pane'>
+            <format attr='border-style' data-class='total' value='none' />
+          </style-rule>
+          <style-rule element='gridline'>
+            <format attr='line-visibility' value='off' />
+          </style-rule>
+          <style-rule element='table-div'>
+            <format attr='line-visibility' scope='rows' value='off' />
+            <format attr='line-visibility' scope='cols' value='off' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <customized-tooltip>
+              <formatted-text>
+                <run bold='true' fontcolor='#000000'>For cart order number&#9;</run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.1rr4mky17mtbhf17u8cc804mvnzq].[none:add_to_cart_order:qk]&gt;</run>
+                <run bold='true' fontcolor='#000000'> the reordered ratio is </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.1rr4mky17mtbhf17u8cc804mvnzq].[avg:reordered_ratio:qk]&gt;</run>
+              </formatted-text>
+            </customized-tooltip>
+          </pane>
+          <pane id='1' selection-relaxation-option='selection-relaxation-allow' y-axis-name='[federated.1rr4mky17mtbhf17u8cc804mvnzq].[avg:reordered_ratio:qk]'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <mark-sizing mark-sizing-setting='marks-scaling-off' />
+            <customized-tooltip>
+              <formatted-text>
+                <run bold='true' fontcolor='#000000'>For cart order number&#9;</run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.1rr4mky17mtbhf17u8cc804mvnzq].[none:add_to_cart_order:qk]&gt;</run>
+                <run bold='true' fontcolor='#000000'> the reordered ratio is </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.1rr4mky17mtbhf17u8cc804mvnzq].[avg:reordered_ratio:qk]&gt;</run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='mark'>
+                <format attr='size' value='0.097955800592899323' />
+                <format attr='mark-color' value='#4e79a7' />
+              </style-rule>
+            </style>
+          </pane>
+          <pane id='2' selection-relaxation-option='selection-relaxation-allow' y-axis-name='[federated.1rr4mky17mtbhf17u8cc804mvnzq].[avg:reordered_ratio:qk]' y-index='1'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Circle' />
+            <mark-sizing mark-sizing-setting='marks-scaling-off' />
+            <customized-tooltip>
+              <formatted-text>
+                <run bold='true' fontcolor='#000000'>For cart order number&#9;</run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.1rr4mky17mtbhf17u8cc804mvnzq].[none:add_to_cart_order:qk]&gt;</run>
+                <run bold='true' fontcolor='#000000'> the reordered ratio is </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.1rr4mky17mtbhf17u8cc804mvnzq].[avg:reordered_ratio:qk]&gt;</run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='mark'>
+                <format attr='size' value='0.69165748357772827' />
+                <format attr='mark-color' value='#4e79a7' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>([federated.1rr4mky17mtbhf17u8cc804mvnzq].[avg:reordered_ratio:qk] + [federated.1rr4mky17mtbhf17u8cc804mvnzq].[avg:reordered_ratio:qk])</rows>
+        <cols>[federated.1rr4mky17mtbhf17u8cc804mvnzq].[none:add_to_cart_order:qk]</cols>
+      </table>
+    </worksheet>
+    <worksheet name='Days since prior order'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='days_since_prior_order' name='federated.1d5mfwr0yctflg14w7v4z1jyl7z8' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1d5mfwr0yctflg14w7v4z1jyl7z8'>
+            <column caption='Days since prior order' datatype='integer' name='[Days_since_prior_order]' role='measure' type='quantitative' />
+            <column caption='Number of orders' datatype='integer' name='[Number_of_orders]' role='measure' type='quantitative' />
+            <column-instance column='[Days_since_prior_order]' derivation='None' name='[none:Days_since_prior_order:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Number_of_orders]' derivation='Sum' name='[sum:Number_of_orders:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <sort class='computed' column='[federated.1d5mfwr0yctflg14w7v4z1jyl7z8].[none:Days_since_prior_order:ok]' direction='DESC' using='[federated.1d5mfwr0yctflg14w7v4z1jyl7z8].[sum:Number_of_orders:qk]' />
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='header'>
+            <format attr='border-style' data-class='total' value='none' />
+          </style-rule>
+          <style-rule element='label'>
+            <format attr='display' field='[federated.1d5mfwr0yctflg14w7v4z1jyl7z8].[none:Days_since_prior_order:ok]' value='false' />
+          </style-rule>
+          <style-rule element='pane'>
+            <format attr='border-style' data-class='total' value='none' />
+          </style-rule>
+          <style-rule element='gridline'>
+            <format attr='line-visibility' scope='rows' value='off' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+            <encodings>
+              <text column='[federated.1d5mfwr0yctflg14w7v4z1jyl7z8].[none:Days_since_prior_order:ok]' />
+            </encodings>
+            <customized-tooltip>
+              <formatted-text>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.1d5mfwr0yctflg14w7v4z1jyl7z8].[sum:Number_of_orders:qk]&gt; </run>
+                <run bold='true'>orders were placed after </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.1d5mfwr0yctflg14w7v4z1jyl7z8].[none:Days_since_prior_order:ok]&gt;</run>
+                <run bold='true'> of previous order</run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-show' value='true' />
+                <format attr='mark-labels-cull' value='true' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.1d5mfwr0yctflg14w7v4z1jyl7z8].[sum:Number_of_orders:qk]</rows>
+        <cols>[federated.1d5mfwr0yctflg14w7v4z1jyl7z8].[none:Days_since_prior_order:ok]</cols>
+      </table>
+    </worksheet>
+    <worksheet name='Distribution of users'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='binned_users_based_on_days_since' name='federated.034bcdd1ocvb5q1dqkl350db04w4' />
+          </datasources>
+          <datasource-dependencies datasource='federated.034bcdd1ocvb5q1dqkl350db04w4'>
+            <column datatype='string' name='[Frequency]' role='dimension' type='nominal' />
+            <column caption='No of users' datatype='integer' name='[No_of_users]' role='measure' type='quantitative' />
+            <column-instance column='[Frequency]' derivation='None' name='[none:Frequency:nk]' pivot='key' type='nominal' />
+            <column-instance column='[No_of_users]' derivation='Sum' name='[sum:No_of_users:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='axis'>
+            <format attr='line-visibility' value='off' />
+            <format attr='tick-color' value='#00000000' />
+          </style-rule>
+          <style-rule element='header'>
+            <format attr='border-style' data-class='total' value='none' />
+          </style-rule>
+          <style-rule element='pane'>
+            <format attr='border-style' data-class='total' value='none' />
+          </style-rule>
+          <style-rule element='dropline'>
+            <format attr='line-visibility' value='on' />
+            <format attr='line-pattern-only' value='solid' />
+          </style-rule>
+          <style-rule element='refline'>
+            <format attr='line-visibility' value='off' />
+          </style-rule>
+          <style-rule element='gridline'>
+            <format attr='line-visibility' scope='rows' value='off' />
+          </style-rule>
+          <style-rule element='zeroline'>
+            <format attr='line-visibility' value='off' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <customized-tooltip>
+              <formatted-text>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.034bcdd1ocvb5q1dqkl350db04w4].[sum:No_of_users:qk]&gt; </run>
+                <run bold='true'>users fall under </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.034bcdd1ocvb5q1dqkl350db04w4].[none:Frequency:nk]&gt; </run>
+                <run bold='true'>days frequency</run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='trendline'>
+                <format attr='line-visibility' value='off' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.034bcdd1ocvb5q1dqkl350db04w4].[sum:No_of_users:qk]</rows>
+        <cols>[federated.034bcdd1ocvb5q1dqkl350db04w4].[none:Frequency:nk]</cols>
+      </table>
+    </worksheet>
+    <worksheet name='Most ordered products'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='most_ordered_products_with_names' name='federated.1y2n61c1wu9n0g15ocb6u034w89a' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1y2n61c1wu9n0g15ocb6u034w89a'>
+            <column datatype='integer' name='[Number of times purchased]' role='measure' type='quantitative' />
+            <column datatype='string' name='[Product Name]' role='dimension' type='nominal' />
+            <column-instance column='[Product Name]' derivation='None' name='[none:Product Name:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Number of times purchased]' derivation='Sum' name='[sum:Number of times purchased:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.1y2n61c1wu9n0g15ocb6u034w89a].[none:Product Name:nk]'>
+            <groupfilter function='level-members' level='[none:Product Name:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
+          <sort class='computed' column='[federated.1y2n61c1wu9n0g15ocb6u034w89a].[none:Product Name:nk]' direction='DESC' using='[federated.1y2n61c1wu9n0g15ocb6u034w89a].[sum:Number of times purchased:qk]' />
+          <slices>
+            <column>[federated.1y2n61c1wu9n0g15ocb6u034w89a].[none:Product Name:nk]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='header'>
+            <format attr='border-style' data-class='subtotal' value='none' />
+            <format attr='width' field='[federated.1y2n61c1wu9n0g15ocb6u034w89a].[none:Product Name:nk]' value='296' />
+          </style-rule>
+          <style-rule element='mark'>
+            <encoding attr='size-bar' field='[federated.1y2n61c1wu9n0g15ocb6u034w89a].[sum:Number of times purchased:qk]' field-type='quantitative' max-size='1' min-size='0.005' type='centersize' />
+          </style-rule>
+          <style-rule element='pane'>
+            <format attr='border-style' data-class='subtotal' value='none' />
+          </style-rule>
+          <style-rule element='table-div'>
+            <format attr='line-visibility' scope='rows' value='off' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Square' />
+            <encodings>
+              <color column='[federated.1y2n61c1wu9n0g15ocb6u034w89a].[sum:Number of times purchased:qk]' />
+              <text column='[federated.1y2n61c1wu9n0g15ocb6u034w89a].[sum:Number of times purchased:qk]' />
+            </encodings>
+            <customized-tooltip>
+              <formatted-text>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.1y2n61c1wu9n0g15ocb6u034w89a].[none:Product Name:nk]&gt;</run>
+                <run bold='true'> was purchased </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.1y2n61c1wu9n0g15ocb6u034w89a].[sum:Number of times purchased:qk]&gt; </run>
+                <run bold='true'>times</run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-show' value='true' />
+                <format attr='mark-labels-cull' value='true' />
+                <format attr='mark-labels-line-first' value='true' />
+                <format attr='mark-labels-line-last' value='true' />
+                <format attr='mark-labels-range-min' value='true' />
+                <format attr='mark-labels-range-max' value='true' />
+                <format attr='mark-labels-mode' value='all' />
+                <format attr='mark-labels-range-scope' value='pane' />
+                <format attr='mark-labels-range-field' value='' />
+                <format attr='has-stroke' value='false' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.1y2n61c1wu9n0g15ocb6u034w89a].[none:Product Name:nk]</rows>
+        <cols />
+      </table>
+    </worksheet>
+    <worksheet name='No. of orders for each product ID'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='no_of_products_in_each_order' name='federated.0r6bg8f10ichey1g4yftv0gc8l1h' />
+          </datasources>
+          <datasource-dependencies datasource='federated.0r6bg8f10ichey1g4yftv0gc8l1h'>
+            <column datatype='integer' name='[Num of products]' role='measure' type='quantitative' />
+            <column datatype='integer' name='[Number of orders]' role='measure' type='quantitative' />
+            <column-instance column='[Number of orders]' derivation='Avg' name='[avg:Number of orders:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Num of products]' derivation='None' name='[none:Num of products:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='axis'>
+            <encoding attr='space' class='0' field='[federated.0r6bg8f10ichey1g4yftv0gc8l1h].[none:Num of products:qk]' field-type='quantitative' max='60' min='-8' range-type='fixed' scope='cols' type='space' />
+            <format attr='subtitle' class='0' field='[federated.0r6bg8f10ichey1g4yftv0gc8l1h].[none:Num of products:qk]' scope='cols' value='' />
+            <format attr='auto-subtitle' class='0' field='[federated.0r6bg8f10ichey1g4yftv0gc8l1h].[none:Num of products:qk]' scope='cols' value='true' />
+            <encoding attr='space' class='1' field='[federated.0r6bg8f10ichey1g4yftv0gc8l1h].[avg:Number of orders:qk]' field-type='quantitative' fold='true' scope='rows' synchronized='true' type='space' />
+            <format attr='display' class='1' field='[federated.0r6bg8f10ichey1g4yftv0gc8l1h].[avg:Number of orders:qk]' scope='rows' value='false' />
+          </style-rule>
+          <style-rule element='header'>
+            <format attr='border-style' data-class='total' value='none' />
+          </style-rule>
+          <style-rule element='pane'>
+            <format attr='border-style' data-class='total' value='none' />
+          </style-rule>
+          <style-rule element='gridline'>
+            <format attr='line-visibility' value='off' />
+          </style-rule>
+          <style-rule element='table-div'>
+            <format attr='line-visibility' scope='rows' value='off' />
+            <format attr='line-visibility' scope='cols' value='off' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+            <customized-tooltip>
+              <formatted-text>
+                <run bold='true' fontcolor='#000000'>The product number</run>
+                <run bold='true' fontcolor='#e15759'> &lt;[federated.0r6bg8f10ichey1g4yftv0gc8l1h].[none:Num of products:qk]&gt; </run>
+                <run bold='true' fontcolor='#000000'>has been ordered </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.0r6bg8f10ichey1g4yftv0gc8l1h].[avg:Number of orders:qk]&gt;</run>
+                <run bold='true' fontcolor='#000000'> times</run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='mark'>
+                <format attr='has-stroke' value='true' />
+                <format attr='stroke-color' value='#ffffff' />
+              </style-rule>
+            </style>
+          </pane>
+          <pane id='1' selection-relaxation-option='selection-relaxation-allow' y-axis-name='[federated.0r6bg8f10ichey1g4yftv0gc8l1h].[avg:Number of orders:qk]'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+            <customized-tooltip>
+              <formatted-text>
+                <run bold='true' fontcolor='#000000'>The product number</run>
+                <run bold='true' fontcolor='#e15759'> &lt;[federated.0r6bg8f10ichey1g4yftv0gc8l1h].[none:Num of products:qk]&gt; </run>
+                <run bold='true' fontcolor='#000000'>has been ordered </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.0r6bg8f10ichey1g4yftv0gc8l1h].[avg:Number of orders:qk]&gt;</run>
+                <run bold='true' fontcolor='#000000'> times</run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='mark'>
+                <format attr='has-stroke' value='true' />
+                <format attr='stroke-color' value='#ffffff' />
+              </style-rule>
+            </style>
+          </pane>
+          <pane id='2' selection-relaxation-option='selection-relaxation-allow' y-axis-name='[federated.0r6bg8f10ichey1g4yftv0gc8l1h].[avg:Number of orders:qk]' y-index='1'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Line' />
+            <customized-tooltip>
+              <formatted-text>
+                <run bold='true' fontcolor='#000000'>The product number</run>
+                <run bold='true' fontcolor='#e15759'> &lt;[federated.0r6bg8f10ichey1g4yftv0gc8l1h].[none:Num of products:qk]&gt; </run>
+                <run bold='true' fontcolor='#000000'>has been ordered </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.0r6bg8f10ichey1g4yftv0gc8l1h].[avg:Number of orders:qk]&gt;</run>
+                <run bold='true' fontcolor='#000000'> times</run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='mark'>
+                <format attr='has-stroke' value='true' />
+                <format attr='stroke-color' value='#ffffff' />
+                <format attr='mark-color' value='#e15759' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>([federated.0r6bg8f10ichey1g4yftv0gc8l1h].[avg:Number of orders:qk] + [federated.0r6bg8f10ichey1g4yftv0gc8l1h].[avg:Number of orders:qk])</rows>
+        <cols>[federated.0r6bg8f10ichey1g4yftv0gc8l1h].[none:Num of products:qk]</cols>
+      </table>
+    </worksheet>
+    <worksheet name='No. of orders per customer'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='num_of_orders_per_customer' name='federated.0f945of0zlylnw1c94rxk0u0u3c5' />
+          </datasources>
+          <datasource-dependencies datasource='federated.0f945of0zlylnw1c94rxk0u0u3c5'>
+            <column-instance column='[order_id]' derivation='None' name='[none:order_id:ok]' pivot='key' type='ordinal' />
+            <column caption='Order Id' datatype='integer' name='[order_id]' role='dimension' type='ordinal' />
+            <column-instance column='[user_id]' derivation='Sum' name='[sum:user_id:qk]' pivot='key' type='quantitative' />
+            <column caption='User Id' datatype='integer' name='[user_id]' role='dimension' type='ordinal' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='header'>
+            <format attr='border-style' data-class='total' value='none' />
+          </style-rule>
+          <style-rule element='label'>
+            <format attr='display' field='[federated.0f945of0zlylnw1c94rxk0u0u3c5].[none:order_id:ok]' value='false' />
+          </style-rule>
+          <style-rule element='pane'>
+            <format attr='border-style' data-class='total' value='none' />
+          </style-rule>
+          <style-rule element='gridline'>
+            <format attr='line-visibility' scope='rows' value='off' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <text column='[federated.0f945of0zlylnw1c94rxk0u0u3c5].[none:order_id:ok]' />
+            </encodings>
+            <customized-tooltip>
+              <formatted-text>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.0f945of0zlylnw1c94rxk0u0u3c5].[sum:user_id:qk]&gt;</run>
+                <run bold='true'> users have </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.0f945of0zlylnw1c94rxk0u0u3c5].[none:order_id:ok]&gt;</run>
+                <run bold='true'> orders</run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-show' value='true' />
+                <format attr='mark-labels-cull' value='true' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.0f945of0zlylnw1c94rxk0u0u3c5].[sum:user_id:qk]</rows>
+        <cols>[federated.0f945of0zlylnw1c94rxk0u0u3c5].[none:order_id:ok]</cols>
+      </table>
+    </worksheet>
+    <worksheet name='No. of orders/ non repeat users removed'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='no_of_products_in_each_order_non_repeat_removed' name='federated.0bpyd681bhbx3m173vnc015eqi3a' />
+          </datasources>
+          <datasource-dependencies datasource='federated.0bpyd681bhbx3m173vnc015eqi3a'>
+            <column datatype='integer' name='[Num of products in order]' role='measure' type='quantitative' />
+            <column datatype='integer' name='[Number of orders]' role='measure' type='quantitative' />
+            <column-instance column='[Num of products in order]' derivation='None' name='[none:Num of products in order:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Number of orders]' derivation='Sum' name='[sum:Number of orders:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='axis'>
+            <encoding attr='space' class='0' field='[federated.0bpyd681bhbx3m173vnc015eqi3a].[none:Num of products in order:qk]' field-type='quantitative' max='60' min='0' range-type='fixed' scope='cols' type='space' />
+            <format attr='subtitle' class='0' field='[federated.0bpyd681bhbx3m173vnc015eqi3a].[none:Num of products in order:qk]' scope='cols' value='' />
+            <format attr='auto-subtitle' class='0' field='[federated.0bpyd681bhbx3m173vnc015eqi3a].[none:Num of products in order:qk]' scope='cols' value='true' />
+            <encoding attr='space' class='1' field='[federated.0bpyd681bhbx3m173vnc015eqi3a].[sum:Number of orders:qk]' field-type='quantitative' fold='true' scope='rows' synchronized='true' type='space' />
+            <format attr='display' class='1' field='[federated.0bpyd681bhbx3m173vnc015eqi3a].[sum:Number of orders:qk]' scope='rows' value='false' />
+          </style-rule>
+          <style-rule element='header'>
+            <format attr='border-style' data-class='total' value='none' />
+          </style-rule>
+          <style-rule element='pane'>
+            <format attr='border-style' data-class='total' value='none' />
+          </style-rule>
+          <style-rule element='gridline'>
+            <format attr='line-visibility' value='off' />
+          </style-rule>
+          <style-rule element='table-div'>
+            <format attr='line-visibility' scope='rows' value='off' />
+            <format attr='line-visibility' scope='cols' value='off' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <customized-tooltip>
+              <formatted-text>
+                <run bold='true' fontcolor='#000000'>The product number </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.0bpyd681bhbx3m173vnc015eqi3a].[none:Num of products in order:qk]&gt;</run>
+                <run bold='true' fontcolor='#000000'> has been ordered </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.0bpyd681bhbx3m173vnc015eqi3a].[sum:Number of orders:qk]&gt;</run>
+                <run bold='true' fontcolor='#000000'> times by non repetitive users</run>
+              </formatted-text>
+            </customized-tooltip>
+          </pane>
+          <pane id='1' selection-relaxation-option='selection-relaxation-allow' y-axis-name='[federated.0bpyd681bhbx3m173vnc015eqi3a].[sum:Number of orders:qk]'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+            <customized-tooltip>
+              <formatted-text>
+                <run bold='true' fontcolor='#000000'>The product number </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.0bpyd681bhbx3m173vnc015eqi3a].[none:Num of products in order:qk]&gt;</run>
+                <run bold='true' fontcolor='#000000'> has been ordered </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.0bpyd681bhbx3m173vnc015eqi3a].[sum:Number of orders:qk]&gt;</run>
+                <run bold='true' fontcolor='#000000'> times by non repetitive users</run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='mark'>
+                <format attr='has-stroke' value='true' />
+                <format attr='stroke-color' value='#ffffff' />
+              </style-rule>
+            </style>
+          </pane>
+          <pane id='2' selection-relaxation-option='selection-relaxation-allow' y-axis-name='[federated.0bpyd681bhbx3m173vnc015eqi3a].[sum:Number of orders:qk]' y-index='1'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <customized-tooltip>
+              <formatted-text>
+                <run bold='true' fontcolor='#000000'>The product number </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.0bpyd681bhbx3m173vnc015eqi3a].[none:Num of products in order:qk]&gt;</run>
+                <run bold='true' fontcolor='#000000'> has been ordered </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.0bpyd681bhbx3m173vnc015eqi3a].[sum:Number of orders:qk]&gt;</run>
+                <run bold='true' fontcolor='#000000'> times by non repetitive users</run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-color' value='#e15759' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>([federated.0bpyd681bhbx3m173vnc015eqi3a].[sum:Number of orders:qk] + [federated.0bpyd681bhbx3m173vnc015eqi3a].[sum:Number of orders:qk])</rows>
+        <cols>[federated.0bpyd681bhbx3m173vnc015eqi3a].[none:Num of products in order:qk]</cols>
+      </table>
+    </worksheet>
+    <worksheet name='Reordered Ratio by Dept'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='departments_size_reorders_size' name='federated.04jdryo0i1bem91dq6ywq1m920uy' />
+          </datasources>
+          <datasource-dependencies datasource='federated.04jdryo0i1bem91dq6ywq1m920uy'>
+            <column caption='Department name' datatype='string' name='[Department_name]' role='dimension' type='nominal' />
+            <column caption='Proportion of whole purchase' datatype='real' name='[Proportion_of_whole_purchase]' role='measure' type='quantitative' />
+            <column-instance column='[Department_name]' derivation='None' name='[none:Department_name:nk]' pivot='key' type='nominal' />
+            <column caption='Reordered Ratio' datatype='real' name='[reordered_ratio]' role='measure' type='quantitative' />
+            <column-instance column='[Proportion_of_whole_purchase]' derivation='Sum' name='[sum:Proportion_of_whole_purchase:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[reordered_ratio]' derivation='Sum' name='[sum:reordered_ratio:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.04jdryo0i1bem91dq6ywq1m920uy].[none:Department_name:nk]'>
+            <groupfilter from='&quot;alcohol&quot;' function='range' level='[none:Department_name:nk]' to='&quot;snacks&quot;' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate' />
+          </filter>
+          <slices>
+            <column>[federated.04jdryo0i1bem91dq6ywq1m920uy].[none:Department_name:nk]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='axis'>
+            <encoding attr='space' class='0' field='[federated.04jdryo0i1bem91dq6ywq1m920uy].[sum:Proportion_of_whole_purchase:qk]' field-type='quantitative' fold='true' scope='rows' synchronized='true' type='space' />
+            <format attr='display' class='0' field='[federated.04jdryo0i1bem91dq6ywq1m920uy].[sum:Proportion_of_whole_purchase:qk]' scope='rows' value='false' />
+          </style-rule>
+          <style-rule element='cell'>
+            <format attr='width' field='[federated.04jdryo0i1bem91dq6ywq1m920uy].[none:Department_name:nk]' value='33' />
+          </style-rule>
+          <style-rule element='header'>
+            <format attr='border-style' data-class='total' scope='rows' value='none' />
+          </style-rule>
+          <style-rule element='label'>
+            <format attr='text-orientation' field='[federated.04jdryo0i1bem91dq6ywq1m920uy].[none:Department_name:nk]' value='-90' />
+          </style-rule>
+          <style-rule element='pane'>
+            <format attr='border-style' data-class='total' scope='rows' value='none' />
+          </style-rule>
+          <style-rule element='gridline'>
+            <format attr='line-visibility' scope='rows' value='off' />
+          </style-rule>
+          <style-rule element='table-div'>
+            <format attr='line-visibility' scope='rows' value='off' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <color column='[federated.04jdryo0i1bem91dq6ywq1m920uy].[:Measure Names]' />
+            </encodings>
+            <customized-tooltip>
+              <formatted-text>
+                <run bold='true' fontcolor='#000000'>For </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.04jdryo0i1bem91dq6ywq1m920uy].[none:Department_name:nk]&gt;</run>
+                <run bold='true' fontcolor='#000000'> department the reorder ratio is </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.04jdryo0i1bem91dq6ywq1m920uy].[sum:reordered_ratio:qk]&gt;</run>
+                <run bold='true' fontcolor='#000000'> and the proportion of purchase is </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.04jdryo0i1bem91dq6ywq1m920uy].[sum:Proportion_of_whole_purchase:qk]&gt;</run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='mark'>
+                <format attr='has-stroke' value='false' />
+              </style-rule>
+              <style-rule element='pane'>
+                <format attr='minwidth' value='-1' />
+                <format attr='maxwidth' value='-1' />
+              </style-rule>
+            </style>
+          </pane>
+          <pane id='1' selection-relaxation-option='selection-relaxation-allow' y-axis-name='[federated.04jdryo0i1bem91dq6ywq1m920uy].[sum:reordered_ratio:qk]'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+            <mark-sizing mark-sizing-setting='marks-scaling-off' />
+            <encodings>
+              <color column='[federated.04jdryo0i1bem91dq6ywq1m920uy].[:Measure Names]' />
+            </encodings>
+            <customized-tooltip>
+              <formatted-text>
+                <run bold='true' fontcolor='#000000'>For </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.04jdryo0i1bem91dq6ywq1m920uy].[none:Department_name:nk]&gt;</run>
+                <run bold='true' fontcolor='#000000'> department the reorder ratio is </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.04jdryo0i1bem91dq6ywq1m920uy].[sum:reordered_ratio:qk]&gt;</run>
+                <run bold='true' fontcolor='#000000'>Æ </run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='mark'>
+                <format attr='size' value='1' />
+                <format attr='has-stroke' value='false' />
+              </style-rule>
+            </style>
+          </pane>
+          <pane id='2' selection-relaxation-option='selection-relaxation-allow' y-axis-name='[federated.04jdryo0i1bem91dq6ywq1m920uy].[sum:Proportion_of_whole_purchase:qk]'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='GanttBar' />
+            <mark-sizing mark-sizing-setting='marks-scaling-off' />
+            <encodings>
+              <color column='[federated.04jdryo0i1bem91dq6ywq1m920uy].[:Measure Names]' />
+            </encodings>
+            <customized-tooltip>
+              <formatted-text>
+                <run bold='true' fontcolor='#000000'>For </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.04jdryo0i1bem91dq6ywq1m920uy].[none:Department_name:nk]&gt;</run>
+                <run bold='true' fontcolor='#000000'> department the proportion of purchase is </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.04jdryo0i1bem91dq6ywq1m920uy].[sum:Proportion_of_whole_purchase:qk]&gt;</run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='mark'>
+                <format attr='size' value='1.9890055656433105' />
+                <format attr='mark-color' value='#e15759' />
+                <format attr='has-stroke' value='false' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>([federated.04jdryo0i1bem91dq6ywq1m920uy].[sum:reordered_ratio:qk] + [federated.04jdryo0i1bem91dq6ywq1m920uy].[sum:Proportion_of_whole_purchase:qk])</rows>
+        <cols>[federated.04jdryo0i1bem91dq6ywq1m920uy].[none:Department_name:nk]</cols>
+      </table>
+    </worksheet>
+    <worksheet name='Repeat vs non repeat users'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='users_vs_non_repeat_users' name='federated.1fplrlb0i0vxxy17c7zfx0g9da1r' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1fplrlb0i0vxxy17c7zfx0g9da1r'>
+            <column caption='No Of Users' datatype='integer' name='[no_of_users]' role='measure' type='quantitative' />
+            <column caption='No Of Users With Days Since&gt;30' datatype='integer' name='[no_of_users_with_days_since&gt;30]' role='measure' type='quantitative' />
+            <column-instance column='[num_of_orders]' derivation='None' name='[none:num_of_orders:qk]' pivot='key' type='quantitative' />
+            <column caption='Num Of Orders' datatype='integer' name='[num_of_orders]' role='measure' type='quantitative' />
+            <column-instance column='[no_of_users]' derivation='Sum' name='[sum:no_of_users:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[no_of_users_with_days_since&gt;30]' derivation='Sum' name='[sum:no_of_users_with_days_since&gt;30:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[:Measure Names]'>
+            <groupfilter function='union' user:op='manual'>
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[sum:no_of_users:qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[sum:no_of_users_with_days_since&gt;30:qk]&quot;' />
+            </groupfilter>
+          </filter>
+          <slices>
+            <column>[federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[:Measure Names]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='axis'>
+            <encoding attr='space' class='0' field='[federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[sum:no_of_users_with_days_since&gt;30:qk]' field-type='quantitative' fold='true' scope='rows' synchronized='true' type='space' />
+            <format attr='display' class='0' field='[federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[sum:no_of_users_with_days_since&gt;30:qk]' scope='rows' value='false' />
+          </style-rule>
+          <style-rule element='header'>
+            <format attr='border-style' data-class='total' scope='cols' value='none' />
+            <format attr='border-style' data-class='total' scope='rows' value='none' />
+          </style-rule>
+          <style-rule element='pane'>
+            <format attr='border-style' data-class='total' value='none' />
+          </style-rule>
+          <style-rule element='gridline'>
+            <format attr='line-visibility' scope='rows' value='off' />
+            <format attr='line-visibility' scope='cols' value='off' />
+          </style-rule>
+          <style-rule element='table-div'>
+            <format attr='line-visibility' scope='cols' value='off' />
+            <format attr='line-visibility' scope='rows' value='off' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+            <encodings>
+              <color column='[federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[:Measure Names]' />
+            </encodings>
+          </pane>
+          <pane id='1' selection-relaxation-option='selection-relaxation-allow' y-axis-name='[federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[sum:no_of_users:qk]'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+            <encodings>
+              <color column='[federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[:Measure Names]' />
+            </encodings>
+            <customized-tooltip>
+              <formatted-text>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[sum:no_of_users:qk]&gt;</run>
+                <run bold='true'> users have </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[none:num_of_orders:qk]&gt; </run>
+                <run bold='true'>ordered after 30 days of previous order</run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='mark'>
+                <format attr='has-stroke' value='true' />
+                <format attr='stroke-color' value='#ffffff' />
+              </style-rule>
+            </style>
+          </pane>
+          <pane id='2' selection-relaxation-option='selection-relaxation-allow' y-axis-name='[federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[sum:no_of_users_with_days_since&gt;30:qk]'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+            <encodings>
+              <color column='[federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[:Measure Names]' />
+              <tooltip column='[federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[sum:no_of_users_with_days_since&gt;30:qk]' />
+            </encodings>
+            <customized-tooltip>
+              <formatted-text>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[sum:no_of_users_with_days_since&gt;&gt;30:qk]&gt;</run>
+                <run bold='true'> users have </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[none:num_of_orders:qk]&gt; </run>
+                <run bold='true'>ordered after 30 days of previous order</run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='mark'>
+                <format attr='has-stroke' value='true' />
+                <format attr='stroke-color' value='#ffffff' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>([federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[sum:no_of_users:qk] + [federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[sum:no_of_users_with_days_since&gt;30:qk])</rows>
+        <cols>[federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[none:num_of_orders:qk]</cols>
+      </table>
+    </worksheet>
+    <worksheet name='Top sold aisles'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='top_sold_aisles' name='federated.1bd4e1e1glqbyb17fg5fl1u37pi6' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1bd4e1e1glqbyb17fg5fl1u37pi6'>
+            <column datatype='string' name='[AIsle name]' role='dimension' type='nominal' />
+            <column datatype='integer' name='[Number of times pruchased]' role='measure' type='quantitative' />
+            <column-instance column='[Number of times pruchased]' derivation='Avg' name='[avg:Number of times pruchased:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[AIsle name]' derivation='None' name='[none:AIsle name:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Number of times pruchased]' derivation='Sum' name='[sum:Number of times pruchased:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <sort class='computed' column='[federated.1bd4e1e1glqbyb17fg5fl1u37pi6].[none:AIsle name:nk]' direction='DESC' using='[federated.1bd4e1e1glqbyb17fg5fl1u37pi6].[sum:Number of times pruchased:qk]' />
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='header'>
+            <format attr='border-style' data-class='total' value='none' />
+          </style-rule>
+          <style-rule element='pane'>
+            <format attr='border-style' data-class='total' value='none' />
+          </style-rule>
+          <style-rule element='gridline'>
+            <format attr='line-visibility' scope='cols' value='off' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <customized-tooltip>
+              <formatted-text>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.1bd4e1e1glqbyb17fg5fl1u37pi6].[none:AIsle name:nk]&gt;</run>
+                <run bold='true'> aisle was puchased </run>
+                <run bold='true' fontcolor='#e15759'>&lt;[federated.1bd4e1e1glqbyb17fg5fl1u37pi6].[avg:Number of times pruchased:qk]&gt;</run>
+                <run bold='true'> times</run>
+              </formatted-text>
+            </customized-tooltip>
+          </pane>
+        </panes>
+        <rows>[federated.1bd4e1e1glqbyb17fg5fl1u37pi6].[none:AIsle name:nk]</rows>
+        <cols>[federated.1bd4e1e1glqbyb17fg5fl1u37pi6].[avg:Number of times pruchased:qk]</cols>
+      </table>
+    </worksheet>
+  </worksheets>
+  <dashboards>
+    <dashboard name='Market Basket Analysis'>
+      <style />
+      <size maxheight='2000' maxwidth='1000' minheight='2000' minwidth='1000' sizing-mode='fixed' />
+      <zones use-insets='false'>
+        <zone h='100000' id='2' type='layout-basic' w='100000' x='0' y='0'>
+          <zone h='99200' id='13' param='horz' type='layout-flow' w='98400' x='800' y='400'>
+            <zone h='99200' id='8' param='horz' type='layout-flow' w='98400' x='800' y='400'>
+              <zone h='99200' id='6' type='layout-basic' w='98400' x='800' y='400'>
+                <zone h='20050' id='1' name='Add to cart vs Reordered Ratio' w='49200' x='800' y='400'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+                <zone h='19788' id='3' name='No. of orders for each product ID' w='49200' x='800' y='20450'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+                <zone h='19788' id='4' name='No. of orders/ non repeat users removed' w='49200' x='50000' y='20450'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+                <zone h='19788' id='9' name='Days since prior order' w='49200' x='800' y='60025'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+                <zone h='19788' id='10' name='No. of orders per customer' w='49200' x='50000' y='60025'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+                <zone h='19787' id='11' name='Most ordered products' w='49200' x='800' y='79813'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+                <zone h='19787' id='16' name='Repeat vs non repeat users' w='49200' x='50000' y='79813'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+                <zone h='19787' id='18' name='Top sold aisles' w='49200' x='800' y='40238'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+                <zone h='19787' id='19' name='Distribution of users' w='49200' x='50000' y='40238'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+                <zone h='20050' id='20' name='Reordered Ratio by Dept' w='49200' x='50000' y='400'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+              </zone>
+            </zone>
+          </zone>
+          <zone-style>
+            <format attr='border-color' value='#000000' />
+            <format attr='border-style' value='none' />
+            <format attr='border-width' value='0' />
+            <format attr='margin' value='8' />
+          </zone-style>
+        </zone>
+      </zones>
+    </dashboard>
+  </dashboards>
+  <windows source-height='240'>
+    <window class='dashboard' maximized='true' name='Market Basket Analysis'>
+      <viewpoints>
+        <viewpoint name='Add to cart vs Reordered Ratio'>
+          <zoom type='entire-view' />
+        </viewpoint>
+        <viewpoint name='Days since prior order'>
+          <zoom type='entire-view' />
+        </viewpoint>
+        <viewpoint name='Distribution of users'>
+          <zoom type='entire-view' />
+        </viewpoint>
+        <viewpoint name='Most ordered products'>
+          <zoom type='fit-width' />
+        </viewpoint>
+        <viewpoint name='No. of orders for each product ID'>
+          <zoom type='entire-view' />
+        </viewpoint>
+        <viewpoint name='No. of orders per customer'>
+          <zoom type='entire-view' />
+        </viewpoint>
+        <viewpoint name='No. of orders/ non repeat users removed'>
+          <zoom type='entire-view' />
+        </viewpoint>
+        <viewpoint name='Reordered Ratio by Dept'>
+          <zoom type='entire-view' />
+        </viewpoint>
+        <viewpoint name='Repeat vs non repeat users'>
+          <zoom type='entire-view' />
+        </viewpoint>
+        <viewpoint name='Top sold aisles' />
+      </viewpoints>
+      <active id='-1' />
+    </window>
+    <window class='worksheet' hidden='true' name='Add to cart vs Reordered Ratio'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+    </window>
+    <window class='worksheet' hidden='true' name='Days since prior order'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <highlight>
+          <color-one-way>
+            <field>[federated.1d5mfwr0yctflg14w7v4z1jyl7z8].[none:Days_since_prior_order:ok]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+    </window>
+    <window class='worksheet' hidden='true' name='Distribution of users'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <highlight>
+          <color-one-way>
+            <field>[federated.034bcdd1ocvb5q1dqkl350db04w4].[none:Frequency:nk]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+    </window>
+    <window class='worksheet' hidden='true' name='Most ordered products'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card mode='checkdropdown' param='[federated.1y2n61c1wu9n0g15ocb6u034w89a].[none:Product Name:nk]' type='filter' />
+            <card pane-specification-id='0' param='[federated.1y2n61c1wu9n0g15ocb6u034w89a].[sum:Number of times purchased:qk]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <highlight>
+          <color-one-way>
+            <field>[federated.1y2n61c1wu9n0g15ocb6u034w89a].[none:Product Name:nk]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+    </window>
+    <window class='worksheet' hidden='true' name='No. of orders for each product ID'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+    </window>
+    <window class='worksheet' hidden='true' name='No. of orders per customer'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <highlight>
+          <color-one-way>
+            <field>[federated.0f945of0zlylnw1c94rxk0u0u3c5].[none:order_id:ok]</field>
+            <field>[federated.0f945of0zlylnw1c94rxk0u0u3c5].[none:user_id:ok]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+    </window>
+    <window class='worksheet' hidden='true' name='No. of orders/ non repeat users removed'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+    </window>
+    <window class='worksheet' hidden='true' name='Reordered Ratio by Dept'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card pane-specification-id='1' param='[federated.04jdryo0i1bem91dq6ywq1m920uy].[:Measure Names]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <highlight>
+          <color-one-way>
+            <field>[federated.04jdryo0i1bem91dq6ywq1m920uy].[none:Department_name:nk]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+    </window>
+    <window class='worksheet' hidden='true' name='Repeat vs non repeat users'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card pane-specification-id='1' param='[federated.1fplrlb0i0vxxy17c7zfx0g9da1r].[:Measure Names]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+    </window>
+    <window class='worksheet' hidden='true' name='Top sold aisles'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <highlight>
+          <color-one-way>
+            <field>[federated.1bd4e1e1glqbyb17fg5fl1u37pi6].[none:AIsle name:nk]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+    </window>
+  </windows>
+  <thumbnails>
+    <thumbnail height='192' name='Market Basket Analysis' width='192'>
+      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
+      RU5ErkJggg==
+    </thumbnail>
+  </thumbnails>
+</workbook>
